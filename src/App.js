@@ -1,11 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './board.css';
-import Game from './views/Game/Game'
+import Client from './views/client/Client'
 
 function App() {
     return (
-        <Game />
+        <Client />
     )
 }
 

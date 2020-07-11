@@ -1,178 +1,134 @@
-import React from 'react'
-import Square1 from '../../components/Squares/Square1'
-import Square2 from '../../components/Squares/Square2'
-import BlankSquare from '../../components/Squares/BlankSquare'
-
-class Gameboard extends React.Component {
-
-    renderSquare1(i) {
-        return (
-            <Square1
-                value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
-            />
-        );
+function NumberBoardSpaces() {
+    // SET HORIZONTAL BOARD ROWS
+    for (var i = 0; i < 11; i++) {
+        boardMap[i] = [1, i + 1];
+        boardMap[i + 23] = [6, i + 1];
+        boardMap[i + 46] = [11, i + 1];
     }
 
-    renderSquare2(i) {
-        return (
-            <Square2
-                value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
-            />
-        );
+    // SET VERTICAL BOARD COLUMNS
+    for (var h = 0; h < 4; h++) {
+        for (var j = 0, k = 1; j < 3; j++ , k += 5) {
+            boardMap[j + 11 + (h * 3)] = [h + 2, k]
+        }
     }
 
-    render() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare2(0)}
-                    {this.renderSquare1(1)}
-                    {this.renderSquare2(2)}
-                    {this.renderSquare1(3)}
-                    {this.renderSquare2(4)}
-                    {this.renderSquare1(5)}
-                    {this.renderSquare2(6)}
-                    {this.renderSquare1(7)}
-                    {this.renderSquare2(8)}
-                    {this.renderSquare1(9)}
-                    {this.renderSquare2(10)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare1(11)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(12)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(13)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare2(14)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(15)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(16)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare1(17)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(18)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(19)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare2(20)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(21)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(22)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare1(23)}
-                    {this.renderSquare2(24)}
-                    {this.renderSquare1(25)}
-                    {this.renderSquare2(26)}
-                    {this.renderSquare1(27)}
-                    {this.renderSquare2(28)}
-                    {this.renderSquare1(29)}
-                    {this.renderSquare2(30)}
-                    {this.renderSquare1(31)}
-                    {this.renderSquare2(32)}
-                    {this.renderSquare1(33)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare2(34)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(35)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(36)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare1(37)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(38)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(39)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare2(40)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(41)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(42)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare1(43)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare2(44)}
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    <BlankSquare />
-                    {this.renderSquare1(45)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare2(46)}
-                    {this.renderSquare1(47)}
-                    {this.renderSquare2(48)}
-                    {this.renderSquare1(49)}
-                    {this.renderSquare2(50)}
-                    {this.renderSquare1(51)}
-                    {this.renderSquare2(52)}
-                    {this.renderSquare1(53)}
-                    {this.renderSquare2(54)}
-                    {this.renderSquare1(55)}
-                    {this.renderSquare2(56)}
-                </div>
-            </div>
-        );
+    for (var m = 0; m < 4; m++) {
+        for (var n = 0, o = 1; n < 3; n++ , o += 5) {
+            boardMap[n + 34 + (m * 3)] = [m + 7, o]
+        }
     }
-
 }
 
-export default Gameboard
+const BOARD_SIZE = 56
+var boardMap = [];
+NumberBoardSpaces()
+
+class Board {
+    constructor(props){
+        console.info("Board: Initializing the board state");
+        this.squares = Array(BOARD_SIZE).fill(null);
+        this.numPlayers = 4;
+
+        // POSITIONS IS ARRAY OF BOARD POSITIONS OF ALL PLAYERS
+        this.positions = [0, 10, 46, 56]
+        this.tokens = ["1", "2", "3", "4"]
+
+        // DISPLAY PLAYER TOKENS ON BOARD
+        this.squares[this.positions[0]] = this.tokens[0];
+        this.squares[this.positions[1]] = this.tokens[1];
+        this.squares[this.positions[2]] = this.tokens[2];
+        this.squares[this.positions[3]] = this.tokens[3];
+        this.currentPlayer = 0;
+    }
+
+    movePlayer(i){
+        console.info("Board: Processing player move: " + (this.currentPlayer + 1));
+
+        if (this.squares[i] !== "O")
+            return;
+
+        // SET CURRENT PLAYER PREVIOUS SPOT BLANK
+        this.squares[this.positions[this.currentPlayer]] = "";
+        // UPDATE BOARD WITH CURRENT PLAYER TOKEN ON NEW SPOT
+        this.squares[i] = this.tokens[this.currentPlayer];
+        // SET NEW PLAYER POSITION
+        this.positions[this.currentPlayer] = i;
+        // UPDATE CURRENT PLAYER TO NEXT PERSON
+        this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
+
+        for (let j = 0; j <= BOARD_SIZE; j++) {
+            if (this.squares[j] === "O")
+                this.squares[j] = ""
+        }
+    }
+
+    getValidMove(diceValue){
+        console.info("Board: Getting Valid moves for player: " + (this.currentPlayer + 1));
+        // CLEAR BOARD OF LAST PLAYER POTENTIAL MOVES O
+        for (let j = 0; j <= BOARD_SIZE; j++) {
+            if (this.squares[j] === "O")
+                this.squares[j] = ""
+        }
+
+        var currX, currY, j;
+
+        currX = boardMap[this.positions[this.currentPlayer]][0]
+        currY = boardMap[this.positions[this.currentPlayer]][1]
+
+        j = this.positions[this.currentPlayer]
+
+        // LOOP TO CHECK FOR AND DISPLAY POTENTIAL MOVES
+        for (var i = 0; i <= BOARD_SIZE; i++) {
+            var moveX = boardMap[i][0]
+            var moveY = boardMap[i][1]
+            var distanceX = Math.abs(moveX - currX)
+            var distanceY = Math.abs(moveY - currY)
+
+            if (distanceX + distanceY === diceValue) {
+                var rowsColumns = [1, 6, 11]
+                var okSpaces = [0, 5, 10, 23, 28, 33, 46, 51, 56]
+
+                // CHECK ROLL OF 5 NOT ILLEGAL JUMP ACROSS BLANK AREA 
+                if (diceValue === 5) {
+                    if (moveX === currX && !rowsColumns.includes(currX))
+                        continue;
+                    if (moveY === currY && !rowsColumns.includes(currY))
+                        continue;
+                }
+
+                // CHECK ROLL OF 6 NOT ILLEGAL JUMP ACROSS BLANK AREA 
+                if (diceValue === 6) {
+                    if (rowsColumns.includes(currX) && rowsColumns.includes(moveX) &&
+                        currX !== moveX && !okSpaces.includes(i) && !okSpaces.includes(j))
+                        continue;
+                    if (rowsColumns.includes(currY) && rowsColumns.includes(moveY) &&
+                        currY !== moveY && !okSpaces.includes(i) && !okSpaces.includes(j))
+                        continue;
+                }
+
+                this.squares[i] = "O"
+            }
+        }
+    }
+
+    getBoardState(){
+        console.info("Board: Returning board state to caller");
+        return this.squares;
+    }
+
+    updatePlayers(){
+        console.info("Board: Updating board and player positions");
+        for (var j = 0; j <= 4; j++) {
+            if (this.squares[this.positions[j]] !== "O")
+                this.squares[this.positions[j]] = this.tokens[j];
+        }
+    }
+
+    getCurrentPlayer(){
+        console.info("Board: Returning current Player to caller");
+        return this.currentPlayer + 1;
+    }
+}
+
+export default Board

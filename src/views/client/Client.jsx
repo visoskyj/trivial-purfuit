@@ -2,6 +2,7 @@ import React from 'react'
 import Board from  '../Gameboard/Gameboard'
 import Gamelogic from  '../../components/Gamelogic/Gamelogic'
 import QuestionsApi from "../../api/QuestionsApi";
+import CategoryToColorMappingApi from "../../api/CategoryToColorMappingApi";
 
 
 class Client extends React.Component {
@@ -18,6 +19,13 @@ class Client extends React.Component {
             this.questions = result.data;
         }).catch(error => {
             console.warn("DB: Failed to fetch all questions with error ", error.toString());
+        });
+
+        CategoryToColorMappingApi.getAllCategoryToColorMappings().then(result => {
+            console.log("DB: Successfully fetched all category to color mappings: ", result.data);
+            this.categoryToColorMappings = result.data;
+        }).catch(error => {
+            console.warn("DB: Failed to fetch all category to color mappings with error ", error.toString());
         });
     }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import Board from  '../Gameboard/Gameboard'
 import Gamelogic from  '../../components/Gamelogic/Gamelogic'
+import QuestionsApi from "../../api/QuestionsApi";
 
 
 class Client extends React.Component {
@@ -12,6 +13,10 @@ class Client extends React.Component {
         this.diceValue = '';
         console.info("Client: Asking gamelogic for current player.");
         this.currentPlayer = this.game.getCurrentPlayer();
+        QuestionsApi.getAllQuestions().then(result => {
+            console.log("Found all questions: ", result.data);
+            this.questions = result.data;
+        });
     }
 
     showBoardMove() {

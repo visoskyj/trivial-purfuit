@@ -19,7 +19,7 @@ The backend will start on port 4000.
 1. Change directory to "backend": `cd backend`.
 2. Install dependencies: `npm install`.
 3. Open server.js, and enter the mongodb password in the `uri` constant (Replace "ENTER_PASSWORD")
-4. Start backend server: `nodemon server`.
+4. Start backend server: `npm start`.
 
 ###APIs
 

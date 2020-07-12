@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const questionRoutes = require("./routes/questions");
+const categoryToColorRoutes = require("./routes/categorymapping");
 
 const PORT = 4000;
 
@@ -21,6 +22,7 @@ connection.once('open', function() {
 
 
 app.use('/question', questionRoutes);
+app.use('/categoryToColor', categoryToColorRoutes);
 
 app.listen(PORT, function() {
     console.log("Backend Server is running on Port: " + PORT);

@@ -14,8 +14,10 @@ class Client extends React.Component {
         console.info("Client: Asking gamelogic for current player.");
         this.currentPlayer = this.game.getCurrentPlayer();
         QuestionsApi.getAllQuestions().then(result => {
-            console.log("Found all questions: ", result.data);
+            console.log("DB: Successfully fetched all questions: ", result.data);
             this.questions = result.data;
+        }).catch(error => {
+            console.warn("DB: Failed to fetch all questions with error ", error.toString());
         });
     }
 

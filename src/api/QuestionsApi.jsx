@@ -14,6 +14,12 @@ class QuestionsApi {
         return ApiUtils.callPostRequest('/question/update/' + id, question);
     }
 
+    static getConfiguration(){
+        // TODO: implement?
+        console.info("Questions: returning configuration options")
+        return "[add, update]"
+    }
+
 }
 
 export default QuestionsApi;

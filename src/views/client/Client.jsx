@@ -24,7 +24,8 @@ class Client extends React.Component {
 
     getConfiguration(){
         console.info("Client: Asking gamelogic to give configuration.");
-        this.game.getConfiguration();
+        let response = this.game.getConfiguration();
+        console.info("Client: the configuration given is: " + response);
     }
 
     handleClick(i){

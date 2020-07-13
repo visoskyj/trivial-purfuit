@@ -29,6 +29,7 @@ class Gamelogic{
     }
 
     grabQuestion(category){
+        //TODO: actually pass in category
         console.info("Gamelogic: Grabbing a question");
         return this.questions[0];
     }
@@ -67,11 +68,8 @@ class Gamelogic{
     getConfiguration(){
         console.info("Gamelogic: Retrieving game configuration");
         console.info("Gamelogic: Calling Questions subsystem for configuration");
-
-        // TODO add call
-
-        // TODO add mock return
-
+        console.info("Gamelogic: Response from Questions: " + QuestionsApi.getConfiguration() + ", Returning to caller");
+        return "Client - [Playercount], Questions - [add, update]";
     }
 
     updatePlayers(){

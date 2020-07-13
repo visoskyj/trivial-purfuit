@@ -1,4 +1,6 @@
 import Board from '../Gameboard/Gameboard'
+import QuestionsApi from "../../api/QuestionsApi";
+import CategoryToColorMappingApi from "../../api/CategoryToColorMappingApi";
 
 
 class Gamelogic{
@@ -9,12 +11,36 @@ class Gamelogic{
         this.diceValue = "";
         this.rolledDice = "";
         this.currentPlayer = this.board.getCurrentPlayer();
+
+        console.info("Gamelogic: Initializing Questions resource");
+        QuestionsApi.getAllQuestions().then(result => {
+            console.log("DB: Successfully fetched all questions: ", result.data);
+            this.questions = result.data;
+        }).catch(error => {
+            console.warn("DB: Failed to fetch all questions with error ", error.toString());
+        });
+
+        CategoryToColorMappingApi.getAllCategoryToColorMappings().then(result => {
+            console.log("DB: Successfully fetched all category to color mappings: ", result.data);
+            this.categoryToColorMappings = result.data;
+        }).catch(error => {
+            console.warn("DB: Failed to fetch all category to color mappings with error ", error.toString());
+        });
     }
+
+    grabQuestion(category){
+        console.info("Gamelogic: Grabbing a question");
+        return this.questions[0];
+    }
+
 
     // MOVE PLAYER TOKEN TO BOARD SPACE OF CHOICE
     handleClick(i) {
         console.info("Gamelogic: Asking Board to move Player");
         this.board.movePlayer(i);
+        let question = this.grabQuestion("Red");
+        console.info("Gamelogic: Returning question to Client");
+        return question;
     }
 
     rollDice(){

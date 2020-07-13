@@ -14,10 +14,10 @@ class Gamelogic{
 
         console.info("Gamelogic: Initializing Questions resource");
         QuestionsApi.getAllQuestions().then(result => {
-            console.log("DB: Successfully fetched all questions: ", result.data);
+            console.log("Gamelogic: Successfully fetched all questions: ", result.data);
             this.questions = result.data;
         }).catch(error => {
-            console.warn("DB: Failed to fetch all questions with error ", error.toString());
+            console.warn("Gamelogic: Failed to fetch all questions with error ", error.toString());
         });
 
         CategoryToColorMappingApi.getAllCategoryToColorMappings().then(result => {

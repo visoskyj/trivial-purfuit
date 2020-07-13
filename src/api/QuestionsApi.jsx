@@ -3,6 +3,7 @@ import ApiUtils from "./ApiUtils";
 class QuestionsApi {
 
     static async getAllQuestions () {
+        console.info("Questions: returning questions to caller")
         return ApiUtils.callGetRequest('/question');
     }
 

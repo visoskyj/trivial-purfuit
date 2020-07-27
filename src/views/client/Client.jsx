@@ -33,6 +33,7 @@ class Client extends React.Component {
         let question = this.game.handleClick(i);
         console.info("Client: The category is - " + question["category"]);
         console.info("Client: The Question is - " + question["question"]);
+        alert("The category is - " + question["category"] + "\nClient: The Question is - " + question["question"]);
         this.currentPlayer = this.game.getCurrentPlayer();
         this.jumpTo();
     }

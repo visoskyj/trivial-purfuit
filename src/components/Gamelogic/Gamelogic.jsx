@@ -40,7 +40,7 @@ class Gamelogic{
         console.info("Gamelogic: Asking Board to move Player");
         this.board.movePlayer(i);
         let question = this.grabQuestion("Red");
-        console.info("Gamelogic: Returning question to Client");
+        console.info("Gamelogic: Returning question and board to Client");
         return question;
     }
 

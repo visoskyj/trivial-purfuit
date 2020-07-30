@@ -54,13 +54,16 @@ class Board {
         this.squares[i] = this.tokens[this.currentPlayer];
         // SET NEW PLAYER POSITION
         this.positions[this.currentPlayer] = i;
-        // UPDATE CURRENT PLAYER TO NEXT PERSON
-        this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
 
         for (let j = 0; j <= BOARD_SIZE; j++) {
             if (this.squares[j] === "O")
                 this.squares[j] = ""
         }
+    }
+
+    updateCurrentPlayer(){
+        // UPDATE CURRENT PLAYER TO NEXT PERSON
+        this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
     }
 
     getValidMove(diceValue){

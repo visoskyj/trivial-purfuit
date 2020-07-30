@@ -10,6 +10,7 @@ class Gamelogic{
         this.board = new Board();
         this.diceValue = "";
         this.rolledDice = "";
+        this.currentCategory = "";
         this.currentPlayer = this.board.getCurrentPlayer();
 
         console.info("Gamelogic: Initializing Questions resource");
@@ -36,11 +37,19 @@ class Gamelogic{
 
 
     // MOVE PLAYER TOKEN TO BOARD SPACE OF CHOICE
-    handleClick(i) {
+    handleClick(i, category) {
+        this.currentCategory = category;
         console.info("Gamelogic: Asking Board to move Player");
         this.board.movePlayer(i);
+
+        if(category == "rollagain"){
+            console.info("Gamelogic: Returning board to Client");
+            return;
+        }
+
         let question = this.grabQuestion("Red");
         console.info("Gamelogic: Returning question and board to Client");
+        this.board.updateCurrentPlayer();
         return question;
     }
 
@@ -53,11 +62,12 @@ class Gamelogic{
     showBoardMove(player) {
         console.info("Gamelogic: Beginning the move phase");
         // RETURN IF PLAYER TRIES TO ROLL DICE WITHOUT SELECTING MOVE
-        if(player !== this.currentPlayer)
-        {
+        if(player !== this.currentPlayer){
             return;
         }
         this.currentPlayer = -1;
+        
+
         // GENERATE RANDOM DICE ROLL NUMBER
         this.rollDice();
         console.info("Gamelogic: Asking the Board to show valid moves");
@@ -80,6 +90,7 @@ class Gamelogic{
     getSquares(){
         console.info("Gamelogic: Asking the Board for board state");
         let state = this.board.getBoardState();
+
         console.info("Gamelogic: Returning board state to caller");
         return state;
     }

@@ -1,24 +1,76 @@
 import React from 'react'
-import Square1 from '../../components/Squares/Square1'
-import Square2 from '../../components/Squares/Square2'
 import BlankSquare from '../../components/Squares/BlankSquare'
+import RollagainSquare from '../../components/Squares/RollagainSquare'
+import PeopleSquare from '../../components/Squares/PeopleSquare'
+import PlaceSquare from '../../components/Squares/PlaceSquare'
+import EventSquare from '../../components/Squares/EventSquare'
+import HolidaySquare from '../../components/Squares/HolidaySquare'
+import HubSquare from '../../components/Squares/HubSquare'
 
 class Board extends React.Component {
 
-    renderSquare1(i) {
+    renderRollagainSquare(i) {
         return (
-            <Square1
+            <RollagainSquare
                 value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
+                onClick={() => this.props.onClick(i, "rollagain")}
             />
         );
     }
 
-    renderSquare2(i) {
+    renderHubSquare(i) {
         return (
-            <Square2
+            <HubSquare
                 value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
+                onClick={() => this.props.onClick(i, "Hub")}
+            />
+        );
+    }
+
+    renderPeopleSquare(i) {
+        var category = "People"
+        if (i == 33)
+            category = "People HQ"
+        return (
+            <PeopleSquare
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+        );
+    }
+
+    renderEventSquare(i) {
+        var category = "Events"
+        if (i == 23)
+            category = "Events HQ"
+        return (
+            <EventSquare
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+        );
+    }
+
+    renderHolidaySquare(i) {
+        var category = "Independence Day"
+        if (i == 51)
+            category = "Independence Day HQ"
+        return (
+            <HolidaySquare
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+        );
+    }
+
+    renderPlaceSquare(i) {
+        var category = "Places"
+        if (i == 5)
+            category = "Places HQ"
+        return (
+            <PlaceSquare
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
             />
         );
     }
@@ -27,147 +79,147 @@ class Board extends React.Component {
         return (
             <div>
                 <div className="board-row">
-                    {this.renderSquare2(0)}
-                    {this.renderSquare1(1)}
-                    {this.renderSquare2(2)}
-                    {this.renderSquare1(3)}
-                    {this.renderSquare2(4)}
-                    {this.renderSquare1(5)}
-                    {this.renderSquare2(6)}
-                    {this.renderSquare1(7)}
-                    {this.renderSquare2(8)}
-                    {this.renderSquare1(9)}
-                    {this.renderSquare2(10)}
+                    {this.renderEventSquare(0)}
+                    {this.renderPlaceSquare(1)}
+                    {this.renderRollagainSquare(2)}
+                    {this.renderHolidaySquare(3)}
+                    {this.renderEventSquare(4)}
+                    {this.renderPlaceSquare(5)}
+                    {this.renderPeopleSquare(6)}
+                    {this.renderRollagainSquare(7)}
+                    {this.renderEventSquare(8)}
+                    {this.renderHolidaySquare(9)}
+                    {this.renderPeopleSquare(10)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare1(11)}
+                    {this.renderHolidaySquare(11)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(12)}
+                    {this.renderEventSquare(12)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(13)}
+                    {this.renderHolidaySquare(13)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare2(14)}
+                    {this.renderRollagainSquare(14)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(15)}
+                    {this.renderPlaceSquare(15)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(16)}
+                    {this.renderEventSquare(16)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare1(17)}
+                    {this.renderPeopleSquare(17)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(18)}
+                    {this.renderPeopleSquare(18)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(19)}
+                    {this.renderRollagainSquare(19)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare2(20)}
+                    {this.renderPlaceSquare(20)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(21)}
+                    {this.renderHolidaySquare(21)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(22)}
+                    {this.renderPlaceSquare(22)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare1(23)}
-                    {this.renderSquare2(24)}
-                    {this.renderSquare1(25)}
-                    {this.renderSquare2(26)}
-                    {this.renderSquare1(27)}
-                    {this.renderSquare2(28)}
-                    {this.renderSquare1(29)}
-                    {this.renderSquare2(30)}
-                    {this.renderSquare1(31)}
-                    {this.renderSquare2(32)}
-                    {this.renderSquare1(33)}
+                    {this.renderEventSquare(23)}
+                    {this.renderPeopleSquare(24)}
+                    {this.renderHolidaySquare(25)}
+                    {this.renderEventSquare(26)}
+                    {this.renderPlaceSquare(27)}
+                    {this.renderHubSquare(28)}
+                    {this.renderPeopleSquare(29)}
+                    {this.renderHolidaySquare(30)}
+                    {this.renderPlaceSquare(31)}
+                    {this.renderEventSquare(32)}
+                    {this.renderPeopleSquare(33)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare2(34)}
+                    {this.renderHolidaySquare(34)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(35)}
+                    {this.renderEventSquare(35)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(36)}
+                    {this.renderHolidaySquare(36)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare1(37)}
+                    {this.renderRollagainSquare(37)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(38)}
+                    {this.renderPeopleSquare(38)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(39)}
+                    {this.renderEventSquare(39)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare2(40)}
+                    {this.renderPeopleSquare(40)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(41)}
+                    {this.renderHolidaySquare(41)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(42)}
+                    {this.renderRollagainSquare(42)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare1(43)}
+                    {this.renderPlaceSquare(43)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare2(44)}
+                    {this.renderPlaceSquare(44)}
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
                     <BlankSquare />
-                    {this.renderSquare1(45)}
+                    {this.renderPeopleSquare(45)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare2(46)}
-                    {this.renderSquare1(47)}
-                    {this.renderSquare2(48)}
-                    {this.renderSquare1(49)}
-                    {this.renderSquare2(50)}
-                    {this.renderSquare1(51)}
-                    {this.renderSquare2(52)}
-                    {this.renderSquare1(53)}
-                    {this.renderSquare2(54)}
-                    {this.renderSquare1(55)}
-                    {this.renderSquare2(56)}
+                    {this.renderHolidaySquare(46)}
+                    {this.renderPeopleSquare(47)}
+                    {this.renderPlaceSquare(48)}
+                    {this.renderRollagainSquare(49)}
+                    {this.renderEventSquare(50)}
+                    {this.renderHolidaySquare(51)}
+                    {this.renderPeopleSquare(52)}
+                    {this.renderPlaceSquare(53)}
+                    {this.renderRollagainSquare(54)}
+                    {this.renderEventSquare(55)}
+                    {this.renderPlaceSquare(56)}
                 </div>
             </div>
         );

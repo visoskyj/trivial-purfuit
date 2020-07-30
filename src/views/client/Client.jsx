@@ -13,6 +13,7 @@ class Client extends React.Component {
         this.diceValue = '';
         console.info("Client: Asking gamelogic for current player.");
         this.currentPlayer = this.game.getCurrentPlayer();
+        this.currentCategory = ''
     }
 
     showBoardMove() {
@@ -28,12 +29,24 @@ class Client extends React.Component {
         console.info("Client: the configuration given is: " + response);
     }
 
-    handleClick(i){
+    handleClick(i, category){
         console.info("Client: Asking gamelogic to move player.");
-        let question = this.game.handleClick(i);
-        console.info("Client: The category is - " + question["category"]);
-        console.info("Client: The Question is - " + question["question"]);
-        alert("The category is - " + question["category"] + "\nClient: The Question is - " + question["question"]);
+        
+        // IGNORE CLICK IF NOT ON SQUARE FOR POTENTIAL MOVE
+        if (this.game.board.squares[i] !== "O")
+            return;
+        
+        this.currentCategory = category;
+        let question = this.game.handleClick(i, category);
+
+        if(category == "rollagain"){
+            alert("Please roll for another turn.");
+        }
+        else {
+            console.info("Client: The category is - " + question["category"]);
+            console.info("Client: The Question is - " + question["question"]);
+            alert("The category is - " + category + "\nClient: The Question is - " + question["question"]);
+        }
         this.currentPlayer = this.game.getCurrentPlayer();
         this.jumpTo();
     }
@@ -71,7 +84,7 @@ class Client extends React.Component {
                 <div className="game-board">
                     <Board
                         squares={this.getSquares()}
-                        onClick={i => this.handleClick(i)}
+                        onClick={(i, category) => this.handleClick(i, category)}
                     />
                 </div>
                 <div className="game-info">

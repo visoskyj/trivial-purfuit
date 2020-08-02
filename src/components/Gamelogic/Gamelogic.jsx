@@ -49,8 +49,11 @@ class Gamelogic{
 
         let question = this.grabQuestion("Red");
         console.info("Gamelogic: Returning question and board to Client");
-        this.board.updateCurrentPlayer();
         return question;
+    }
+
+    updateCurrentPlayer(){
+        this.board.updateCurrentPlayer();
     }
 
     rollDice(){
@@ -61,12 +64,11 @@ class Gamelogic{
     // GET DICE ROLL NUMBER AND SHOW SPACES WHERE PLAYER CAN MOVE
     showBoardMove(player) {
         console.info("Gamelogic: Beginning the move phase");
-        // RETURN IF PLAYER TRIES TO ROLL DICE WITHOUT SELECTING MOVE
-        if(player !== this.currentPlayer){
-            return;
-        }
-        this.currentPlayer = -1;
         
+        // RETURN IF PLAYER TRIES TO ROLL DICE WITHOUT SELECTING MOVE
+        if(player !== this.currentPlayer)
+            return;
+        this.currentPlayer = -1;
 
         // GENERATE RANDOM DICE ROLL NUMBER
         this.rollDice();

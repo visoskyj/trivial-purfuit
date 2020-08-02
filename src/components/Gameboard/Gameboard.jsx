@@ -28,17 +28,17 @@ class Board {
     constructor(props){
         console.info("Board: Initializing the board state");
         this.squares = Array(BOARD_SIZE).fill(null);
-        this.numPlayers = 4;
+        this.numPlayers = 3;
 
         // POSITIONS IS ARRAY OF BOARD POSITIONS OF ALL PLAYERS
         this.positions = [0, 10, 46, 56]
-        this.tokens = ["1", "2", "3", "4"]
+        this.tokens = ["1", "2", "3", "5"]
 
         // DISPLAY PLAYER TOKENS ON BOARD
-        this.squares[this.positions[0]] = this.tokens[0];
-        this.squares[this.positions[1]] = this.tokens[1];
-        this.squares[this.positions[2]] = this.tokens[2];
-        this.squares[this.positions[3]] = this.tokens[3];
+        let i = 0
+        // for(i=0; i < this.numPlayers; i++){
+        //     this.squares[this.positions[i]] = this.tokens[i];
+        // }
         this.currentPlayer = 0;
     }
 
@@ -122,10 +122,13 @@ class Board {
 
     updatePlayers(){
         console.info("Board: Updating board and player positions");
-        for (var j = 0; j <= 4; j++) {
+        for (var j = 0; j < this.numPlayers; j++) {
             if (this.squares[this.positions[j]] !== "O")
                 this.squares[this.positions[j]] = this.tokens[j];
         }
+        // ENSURE CURRENT PLAYER TOKEN DISPLAYED IF MULTIPLE PLAYERS ON SAME TILE
+        if (this.squares[this.positions[this.currentPlayer]] !== "O")
+            this.squares[this.positions[this.currentPlayer]] = this.tokens[this.currentPlayer];
     }
 
     getCurrentPlayer(){

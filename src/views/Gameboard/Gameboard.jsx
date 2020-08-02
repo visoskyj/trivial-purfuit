@@ -52,9 +52,9 @@ class Board extends React.Component {
     }
 
     renderHolidaySquare(i) {
-        var category = "Independence Day"
+        var category = "Holiday"
         if (i == 51)
-            category = "Independence Day HQ"
+            category = "Holiday HQ"
         return (
             <HolidaySquare
                 value={this.props.squares[i]}
@@ -90,6 +90,9 @@ class Board extends React.Component {
                     {this.renderEventSquare(8)}
                     {this.renderHolidaySquare(9)}
                     {this.renderPeopleSquare(10)}
+                    {/*<BlankSquare />
+                    {this.renderPlaceSquare(57)}Place*/}
+
                 </div>
                 <div className="board-row">
                     {this.renderHolidaySquare(11)}

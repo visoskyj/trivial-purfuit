@@ -8,6 +8,10 @@ let Question = new Schema({
     answers: {
         type: [String]
     },
+    correctAnswer: {
+        type: Number,
+        min: 1, max: 100
+    },
     category: {
         type: String,
         enum: ['People', 'Event', 'Places', 'Holiday']

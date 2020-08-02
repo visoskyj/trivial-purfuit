@@ -42,11 +42,12 @@ class Client extends React.Component {
             "\n\n" + question["question"] + "\n\n" + 
             "1. " + question["answers"][0] + "\n\n" +
             "2. " + question["answers"][1] + "\n\n" +
-            "3. " + question["answers"][2] + "\n\n", 
+            "3. " + question["answers"][2] + "\n\n" +
+            "4. " + question["answers"][3] + "\n\n",
             "Give number of answer.");
 
         // let correct_answer = question["correct_answer"]
-        let correct_answer = '1'
+        let correct_answer = question["correctAnswer"];
         if(user_answer == correct_answer)
             return 'correct'
         else return 'incorrect'

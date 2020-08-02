@@ -11,12 +11,22 @@ export default class Gamelogic {
         this.diceValue = 0;
         this.rolledDice = 0;
         this.currentCategory = "";
+        this.peopleQuestions = [];
+        this.eventQuestions = [];
+        this.placesQuestions = [];
+        this.holidayQuestions = [];
         this.currentPlayer = this.board.getCurrentPlayer();
 
         console.info("Gamelogic: Initializing Questions resource");
         QuestionsApi.getAllQuestions().then(result => {
             console.log("Gamelogic: Successfully fetched all questions: ", result.data);
             this.questions = result.data;
+            this.questions.forEach(qn => {
+                if (qn.category === 'People') this.peopleQuestions.push(qn);
+                else if (qn.category === 'Event') this.eventQuestions.push(qn);
+                else if (qn.category === 'Places') this.placesQuestions.push(qn);
+                else if (qn.category === 'Holiday') this.holidayQuestions.push(qn);
+            })
         }).catch(error => {
             console.warn("Gamelogic: Failed to fetch all questions with error ", error.toString());
         });
@@ -29,9 +39,17 @@ export default class Gamelogic {
         });
     }
 
+    getRandomNum(upperBound) {
+        return Math.floor(Math.random() * upperBound);
+    }
+
     grabQuestion(category){
-        //TODO: actually pass in category
-        console.info("Gamelogic: Grabbing a question");
+        console.info("Gamelogic: Grabbing a question for category ", category);
+        if (category.includes('People')) return this.peopleQuestions[this.getRandomNum(this.peopleQuestions.length)];
+        else if (category.includes('Events')) return this.eventQuestions[this.getRandomNum(this.eventQuestions.length)];
+        else if (category.includes('Places')) return this.placesQuestions[this.getRandomNum(this.placesQuestions.length)];
+        else if (category.includes('Holiday')) return this.holidayQuestions[this.getRandomNum(this.holidayQuestions.length)];
+        //Return default question
         return this.questions[0];
     }
 
@@ -47,7 +65,7 @@ export default class Gamelogic {
             return;
         }
 
-        let question = this.grabQuestion("Red");
+        let question = this.grabQuestion(category);
         console.info("Gamelogic: Returning question and board to Client");
         return question;
     }

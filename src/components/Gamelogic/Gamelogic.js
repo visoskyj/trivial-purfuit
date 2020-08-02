@@ -1,15 +1,15 @@
-import Board from '../Gameboard/Gameboard'
+import BoardState from '../BoardState/BoardState'
 import QuestionsApi from "../../api/QuestionsApi";
 import CategoryToColorMappingApi from "../../api/CategoryToColorMappingApi";
 
 
-class Gamelogic{
+export default class Gamelogic {
 
     constructor(props) {
         console.info("Gamelogic: Initializing a new Board state");
-        this.board = new Board();
-        this.diceValue = "";
-        this.rolledDice = "";
+        this.board = new BoardState();
+        this.diceValue = 0;
+        this.rolledDice = 0;
         this.currentCategory = "";
         this.currentPlayer = this.board.getCurrentPlayer();
 
@@ -91,7 +91,7 @@ class Gamelogic{
 
     getSquares(){
         console.info("Gamelogic: Asking the Board for board state");
-        let state = this.board.getBoardState();
+        let state = this.board.getBoard();
 
         console.info("Gamelogic: Returning board state to caller");
         return state;
@@ -109,5 +109,3 @@ class Gamelogic{
         return this.currentPlayer;
     }
 }
-
-export default Gamelogic

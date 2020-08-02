@@ -8,6 +8,8 @@ import PlaceSquare from '../../components/Squares/PlaceSquare'
 import EventSquare from '../../components/Squares/EventSquare'
 import HolidaySquare from '../../components/Squares/HolidaySquare'
 import HubSquare from '../../components/Squares/HubSquare'
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 
 class Client extends React.Component {
@@ -93,80 +95,102 @@ class Client extends React.Component {
     }
 
     render() {
-        const diceRollButton =
-            <li>
-                <button onClick={() => this.showBoardMove()}>Roll Dice</button>
-            </li>
-
-        // const initGameButton =
-        //     <li>
-        //         <button onClick={() => this.game.updatePlayers()}>Initialize Game</button>
-        //     </li>
-
-        const configButton = 
-            <li>
-                <button onClick={() => this.getConfiguration()}>Configure game</button>
-            </li>            
-
-        let displayRoll, displayPlayer;
-        displayRoll = "Dice Roll: " + this.diceValue;
-        displayPlayer = "Current Player: " + this.currentPlayer;
-        
-
-        var tokenContent = "Player " + this.currentPlayer + 
-                           " token: " + "Red, Blue, White"
-    
 
         this.game.updatePlayers();
 
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares={this.getSquares()}
-                        onClick={(i, category) => this.handleClick(i, category)}
-                    />
-                </div>
-                <div className="game-info">
-                    <div>{displayRoll}</div>
-                    <div>{displayPlayer}</div>
-                    <div>{tokenContent}</div>
-                    <ul>
-                        {diceRollButton}
-                    </ul>
-                    {/*<ul>
-                        {initGameButton}
-                    </ul>*/}
-                    <ul>
-                        {configButton}
-                    </ul>
-                </div>
-                Places Category
-                <div className="board-row">
-                    <PlaceSquare />
-                </div>
-                Events Category
-                <div className="board-row">
-                    <EventSquare />
-                </div>
-                People Category
-                <div className="board-row">
-                    <PeopleSquare />
-                </div>
-                Holiday Category
-                <div className="board-row">
-                    <HolidaySquare />
-                </div>
-                Roll Again
-                <div className="board-row">
-                    <RollagainSquare />
-                </div>
-                Hub Square
-                <div className="board-row">
-                    <HubSquare />
-                </div>
+          <div className="game">
+            <h2>Trivial Perfuit</h2>
 
+            <div className="game-board">
+              <Board
+                squares={this.getSquares()}
+                onClick={(i, category) => this.handleClick(i, category)}
+              />
             </div>
+            <div>
+              <h3>Controls</h3>
+              <Box display="flex" justifyContent={"space-between"}>
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  className={"local-button local-button--primary"}
+                  onClick={() => this.showBoardMove()}
+                >
+                  Roll Dice
+                </Button>
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  className={"local-button local-button--primary"}
+                  onClick={() => this.getConfiguration()}
+                >
+                  Configure Game
+                </Button>
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  className={"local-button local-button--primary"}
+                  onClick={() => this.game.updatePlayers()}
+                >
+                  Initialize Game
+                </Button>
+              </Box>
+            </div>
+            <div className="game-info">
+              <h3>Game Info</h3>
+              <Box
+                display="flex"
+                flexDirection={"column"}
+                justifyContent={"space-between"}
+              >
+                <div>Dice Value: {this.diceValue}</div>
+                <div>Current Player: {this.currentPlayer}</div>
+                <div>
+                  Player {this.currentPlayer} token: Red, Blue, White
+                </div>
+              </Box>
+            </div>
+
+            <div>
+              <h3>Board Map</h3>
+              <Box
+                display="flex"
+                justifyContent={"space-between"}
+                margin={"16px 0"}
+              >
+                <span className="board-row">
+                  <PlaceSquare id={"PlaceSquare"} />
+                  <small>Places Category</small>
+                </span>
+
+                <span className="board-row">
+                    <EventSquare />
+                    <small>Events Category</small>
+                </span>
+
+                <span className="board-row">
+                    <PeopleSquare />
+                    <small>People Category</small>
+                </span>
+
+                <span className="board-row">
+                    <HolidaySquare />
+                    <small>Holiday Category</small>
+                </span>
+
+                <span className="board-row">
+                    <RollagainSquare />
+                    <small>Roll Again</small>
+                </span>
+
+                <span className="board-row">
+                    <HubSquare />
+                    <small>Hub Square</small>
+                </span>
+              </Box>
+            </div>
+          </div>
         );
     }
 }

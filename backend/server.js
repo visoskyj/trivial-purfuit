@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-const uri = "mongodb://mongodbuser:optimizeprime@trivialpursuit-shard-00-00.twmub.azure.mongodb.net:27017,trivialpursuit-shard-00-01.twmub.azure.mongodb.net:27017,trivialpursuit-shard-00-02.twmub.azure.mongodb.net:27017/TrivialPursuit?ssl=true&replicaSet=atlas-l8i7ui-shard-0&authSource=admin&retryWrites=true&w=majority";
+const uri = "mongodb://mongodbuser:ENTER_PASSWORD@trivialpursuit-shard-00-00.twmub.azure.mongodb.net:27017,trivialpursuit-shard-00-01.twmub.azure.mongodb.net:27017,trivialpursuit-shard-00-02.twmub.azure.mongodb.net:27017/TrivialPursuit?ssl=true&replicaSet=atlas-l8i7ui-shard-0&authSource=admin&retryWrites=true&w=majority";
 mongoose.connect(uri, { useNewUrlParser: true });
 const connection = mongoose.connection;
 

@@ -39,6 +39,7 @@ export default class BoardState {
     console.info("Board: Initializing the board state");
     
     this.board = new Board();
+    this.board.numberBoardSpaces()
     console.log(this.board);
 
     this.squares = Array(BOARD_SIZE).fill(null);
@@ -49,7 +50,7 @@ export default class BoardState {
     for(var i = 0; i < 4; i++){
       this.playerTokens.push(new Token())
     }
-    
+
     this.numPlayers = 0;
     this.tokens = ["1", "2", "3", "4"]; 
     this.currentPlayer = 0;

@@ -1,4 +1,4 @@
-import Cake from './Cake';
+import Cake from '../Cake/Cake';
 
 export default class Token {
   id;
@@ -21,7 +21,7 @@ export default class Token {
 
   getCakePieces() {
     // calls cake.getPieces()
-    return this.cakePieces.getPieces();
+    return this.cakePieces.getCakePieces();
   }
 }
 

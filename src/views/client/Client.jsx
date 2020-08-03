@@ -20,11 +20,15 @@ class Client extends React.Component {
         this.game = new Gamelogic();
         this.diceValue = '';
         console.info("Client: Asking gamelogic for current player.");
-        this.currentPlayer = this.game.getCurrentPlayer();
+        this.currentPlayerCakes = ''
+        this.currentPlayer = ''
         this.currentCategory = ''
     }
 
     showBoardMove() {
+        // IF NUMBER PLAYERS IS 0 DON'T PROCESS CLICK
+        if(this.game.getNumberPlayers() === 0)
+            return
         console.info("Client: Asking gamelogic to start a board move.");
         this.game.showBoardMove(this.currentPlayer);
         this.diceValue = this.game.getDiceRoll();        
@@ -52,6 +56,38 @@ class Client extends React.Component {
         else return 'incorrect'
     }
 
+    grantTokenCakes(){
+        
+        let category = this.currentCategory
+        let color = ''
+
+        switch(category) {
+            case "Holiday HQ":
+                color = "Green"
+                break;
+            case "Events HQ":
+                color = "White"
+                break;
+            case "People HQ":
+                color = "Red"
+                break;
+            case "Places HQ":
+                color = "Blue"
+                break;   
+            default:
+                return
+        }
+
+        let playerTokenBefore = this.game.getPlayerCakes()
+        this.game.updatePlayerCakes(color)
+        let playerTokenAfter = this.game.getPlayerCakes()
+
+        if(playerTokenBefore !== playerTokenAfter)
+            alert("You have won a cake piece!")
+
+        return
+    }
+
     handleClick(i, category){
         console.info("Client: Asking gamelogic to move player.");
         
@@ -62,16 +98,18 @@ class Client extends React.Component {
         this.currentCategory = category;
         let question = this.game.handleClick(i, category);
 
-        if(category == "rollagain"){
+        if(category === "rollagain"){
             alert("Please roll for another turn.");
         }
         else {
             console.info("Client: The category is - " + question["category"]);
             console.info("Client: The question is - " + question["question"]);
             console.info("Client: The answers are - " + question["answers"]);
+            console.info("Client: The correct answer is - " + question["correctAnswer"]);
             
             if(this.questionPrompt(question) == "correct"){
                 console.info('Client: Player provided answer is CORRECT!')
+                this.grantTokenCakes()
                 alert("Correct answer! Roll again.");
             }
             else {
@@ -80,6 +118,8 @@ class Client extends React.Component {
             }
         }
         this.currentPlayer = this.game.getCurrentPlayer();
+        this.diceValue = ''
+        this.currentPlayerCakes = this.game.getPlayerCakes()
         this.jumpTo();
     }
 
@@ -101,10 +141,12 @@ class Client extends React.Component {
 
         let players = prompt("How many players would like to play?", "2 - 4")   
         var playersInt = parseInt(players, 10)
-        if(playersInt != 2 && playersInt != 3 && playersInt != 4)
+        if(playersInt !== 2 && playersInt !== 3 && playersInt !== 4)
             return    
         this.game.updateNumberPlayers(players)
         this.game.updatePlayers();
+        this.currentPlayerCakes = this.game.getPlayerCakes()
+
         this.jumpTo();
     }
 
@@ -117,6 +159,7 @@ class Client extends React.Component {
     render() {
 
         this.game.updatePlayers();
+        console.log(this.currentPlayerCakes)
 
         return (
           <div className="game">
@@ -169,7 +212,7 @@ class Client extends React.Component {
                 <div>Dice Value: {this.diceValue}</div>
                 <div>Current Player: {this.currentPlayer}</div>
                 <div>
-                  Player {this.currentPlayer} token: Red, Blue, White
+                  Token cakes: {this.currentPlayerCakes}
                 </div>
               </Box>
             </div>

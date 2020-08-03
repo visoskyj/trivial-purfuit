@@ -40,15 +40,10 @@ export default class BoardState {
     console.log(this.board);
 
     this.squares = Array(BOARD_SIZE).fill(null);
+    // POSITIONS IS ARRAY OF BOARD POSITIONS OF ALL PLAYERS
     this.positions = [0, 10, 46, 56];
-    this.numPlayers = 3;
-    this.tokens = ["1", "2", "3", "5"]; // POSITIONS IS ARRAY OF BOARD POSITIONS OF ALL PLAYERS
-
-    // DISPLAY PLAYER TOKENS ON BOARD
-    let i = 0;
-    // for(i=0; i < this.numPlayers; i++){
-    //     this.squares[this.positions[i]] = this.tokens[i];
-    // }
+    this.numPlayers = 0;
+    this.tokens = ["1", "2", "3", "4"]; 
     this.currentPlayer = 0;
   }
 

@@ -138,6 +138,7 @@ class Client extends React.Component {
             }
             else {
                 console.info('Client: Player provided answer is incorrect :(')
+                alert("Incorrect answer. It's the next player's turn");
                 this.game.updateCurrentPlayer()
             }
         }

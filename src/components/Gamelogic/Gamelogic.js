@@ -90,6 +90,10 @@ export default class Gamelogic {
         return cakesString.substring(0, cakesString.length - 2);
     }
 
+    getPlayerCakesArray(){
+        return this.board.getPlayerCakes()
+    }
+
     updatePlayerCakes(color){
         this.board.updatePlayerCakes(color)
     }

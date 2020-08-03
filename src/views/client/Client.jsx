@@ -164,8 +164,7 @@ class Client extends React.Component {
         this.resetGame();
 
         let players = prompt("How many players would like to play?", "2 - 4")   
-        var playersInt = parseInt(players, 10)
-        if(playersInt !== 2 && playersInt !== 3 && playersInt !== 4){
+        if(/^[1-4]{1}$/.test(players) == false){
             alert("Please chose between 2 - 4 players please!");
             return;    
         }

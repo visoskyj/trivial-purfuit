@@ -135,6 +135,15 @@ class Client extends React.Component {
                   variant={"contained"}
                   color={"primary"}
                   className={"local-button local-button--primary"}
+                  onClick={() => this.initializeGame()}
+                >
+                  Initialize Game
+                </Button>  
+
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  className={"local-button local-button--primary"}
                   onClick={() => this.showBoardMove()}
                 >
                   Roll Dice
@@ -147,14 +156,7 @@ class Client extends React.Component {
                 >
                   Configure Game
                 </Button>
-                <Button
-                  variant={"contained"}
-                  color={"primary"}
-                  className={"local-button local-button--primary"}
-                  onClick={() => this.initializeGame()}
-                >
-                  Initialize Game
-                </Button>
+                
               </Box>
             </div>
             <div className="game-info">

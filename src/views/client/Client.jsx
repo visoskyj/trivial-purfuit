@@ -205,7 +205,7 @@ class Client extends React.Component {
                   className={"local-button local-button--primary"}
                   onClick={() => this.initializeGame()}
                 >
-                  Initialize Game
+                  Setup Game
                 </Button>  
 
                 <Button

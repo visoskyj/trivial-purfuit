@@ -46,7 +46,6 @@ class Client extends React.Component {
             "4. " + question["answers"][3] + "\n\n",
             "Give number of answer.");
 
-        // let correct_answer = question["correct_answer"]
         let correct_answer = question["correctAnswer"];
         if(user_answer == correct_answer)
             return 'correct'
@@ -73,7 +72,7 @@ class Client extends React.Component {
             
             if(this.questionPrompt(question) == "correct"){
                 console.info('Client: Player provided answer is CORRECT!')
-                alert("Correct answer!\nRoll for another turn.");
+                alert("Correct answer! Roll again.");
             }
             else {
                 console.info('Client: Player provided answer is incorrect :(')
@@ -87,6 +86,26 @@ class Client extends React.Component {
     getSquares(){
         console.info("Client: Asking gamelogic to provide updated board.");
         return this.game.getSquares();
+    }
+
+    resetGame(){
+        this.game = new Gamelogic();
+        this.diceValue = '';
+        console.info("Client: Asking gamelogic for current player.");
+        this.currentPlayer = this.game.getCurrentPlayer();
+        this.currentCategory = '';
+    }
+
+    initializeGame(){
+        this.resetGame();
+
+        let players = prompt("How many players would like to play?", "2 - 4")   
+        var playersInt = parseInt(players, 10)
+        if(playersInt != 2 && playersInt != 3 && playersInt != 4)
+            return    
+        this.game.updateNumberPlayers(players)
+        this.game.updatePlayers();
+        this.jumpTo();
     }
 
     jumpTo() {
@@ -132,7 +151,7 @@ class Client extends React.Component {
                   variant={"contained"}
                   color={"primary"}
                   className={"local-button local-button--primary"}
-                  onClick={() => this.game.updatePlayers()}
+                  onClick={() => this.initializeGame()}
                 >
                   Initialize Game
                 </Button>
@@ -162,32 +181,32 @@ class Client extends React.Component {
               >
                 <span className="board-row">
                   <PlaceSquare id={"PlaceSquare"} />
-                  <small>Places Category</small>
+                  <small>Places</small>
                 </span>
 
                 <span className="board-row">
                     <EventSquare />
-                    <small>Events Category</small>
+                    <small>Events</small>
                 </span>
 
                 <span className="board-row">
                     <PeopleSquare />
-                    <small>People Category</small>
+                    <small>People</small>
                 </span>
 
                 <span className="board-row">
                     <HolidaySquare />
-                    <small>Holiday Category</small>
+                    <small>Holiday</small>
                 </span>
 
                 <span className="board-row">
                     <RollagainSquare />
-                    <small>Roll Again</small>
+                    <small>Roll</small>
                 </span>
 
                 <span className="board-row">
                     <HubSquare />
-                    <small>Hub Square</small>
+                    <small>Hub</small>
                 </span>
               </Box>
             </div>

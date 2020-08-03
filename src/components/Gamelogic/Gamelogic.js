@@ -74,6 +74,15 @@ export default class Gamelogic {
         this.board.updateCurrentPlayer();
     }
 
+    updateNumberPlayers(numPlayers){
+        this.board.numPlayers = numPlayers
+    }
+
+    getNumberPlayers(){
+        return this.board.numPlayers
+    }
+
+
     rollDice(){
         console.info("Gamelogic: Rolling the dice");
         this.diceValue = Math.floor(Math.random() * Math.floor(6)) + 1;
@@ -81,6 +90,11 @@ export default class Gamelogic {
 
     // GET DICE ROLL NUMBER AND SHOW SPACES WHERE PLAYER CAN MOVE
     showBoardMove(player) {
+
+        // IF NUMBER PLAYERS IS 0 DON'T PROCESS CLICK
+        if(!this.board.numPlayers)
+            return
+        
         console.info("Gamelogic: Beginning the move phase");
         
         // RETURN IF PLAYER TRIES TO ROLL DICE WITHOUT SELECTING MOVE
@@ -104,7 +118,8 @@ export default class Gamelogic {
 
     updatePlayers(){
         console.info("Gamelogic: Asking the Board to update players");
-        this.board.updatePlayers();
+        if(this.board.numPlayers)
+            this.board.updatePlayers();
     }
 
     getSquares(){

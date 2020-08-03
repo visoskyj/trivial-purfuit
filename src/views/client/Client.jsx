@@ -41,6 +41,12 @@ class Client extends React.Component {
         console.info("Client: the configuration given is: " + response);
     }
 
+    valid_answer(answer){
+      if(/^[1-4]{1}$/.test(answer))
+        return true
+      else return false    
+    }
+
     questionPrompt(question){
         let user_answer = prompt("Category is " + this.currentCategory + 
             "\n\n" + question["question"] + "\n\n" + 
@@ -50,6 +56,10 @@ class Client extends React.Component {
             "4. " + question["answers"][3] + "\n\n",
             "Give number of answer.");
 
+        if(!this.valid_answer(user_answer) && user_answer != null){
+          alert("Please enter a value, 1 - 4")
+          this.questionPrompt(question);
+        }
         let correct_answer = question["correctAnswer"];
         if(user_answer == correct_answer)
             return 'correct'
@@ -141,8 +151,10 @@ class Client extends React.Component {
 
         let players = prompt("How many players would like to play?", "2 - 4")   
         var playersInt = parseInt(players, 10)
-        if(playersInt !== 2 && playersInt !== 3 && playersInt !== 4)
-            return    
+        if(playersInt !== 2 && playersInt !== 3 && playersInt !== 4){
+            alert("Please chose between 2 - 4 players please!");
+            return;    
+        }
         this.game.updateNumberPlayers(players)
         this.game.updatePlayers();
         this.currentPlayerCakes = this.game.getPlayerCakes()

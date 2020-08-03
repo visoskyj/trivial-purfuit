@@ -18,7 +18,7 @@ ol, ul {
 
 .blank_square, .rollagainSquare, .eventSquare, 
 .placeSquare, .holidaySquare, .peopleSquare, .hubSquare {
-  border: none;
+  border: 1px solid white;
   float: left;
   font-size: 18px;
   line-height: 37px;
@@ -49,6 +49,7 @@ ol, ul {
 }
 .blank_square {
   background: #fff;
+  border: none;
 }
 
 /* Game */

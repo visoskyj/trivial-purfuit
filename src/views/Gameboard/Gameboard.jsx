@@ -29,7 +29,7 @@ class Board extends React.Component {
 
     renderPeopleSquare(i) {
         var category = "People"
-        if (i == 33)
+        if (i === 33)
             category = "People HQ"
         return (
             <PeopleSquare
@@ -41,7 +41,7 @@ class Board extends React.Component {
 
     renderEventSquare(i) {
         var category = "Events"
-        if (i == 23)
+        if (i === 23)
             category = "Events HQ"
         return (
             <EventSquare
@@ -53,7 +53,7 @@ class Board extends React.Component {
 
     renderHolidaySquare(i) {
         var category = "Holiday"
-        if (i == 51)
+        if (i === 51)
             category = "Holiday HQ"
         return (
             <HolidaySquare
@@ -65,7 +65,7 @@ class Board extends React.Component {
 
     renderPlaceSquare(i) {
         var category = "Places"
-        if (i == 5)
+        if (i === 5)
             category = "Places HQ"
         return (
             <PlaceSquare
@@ -90,9 +90,6 @@ class Board extends React.Component {
                     {this.renderEventSquare(8)}
                     {this.renderHolidaySquare(9)}
                     {this.renderPeopleSquare(10)}
-                    {/*<BlankSquare />
-                    {this.renderPlaceSquare(57)}Place*/}
-
                 </div>
                 <div className="board-row">
                     {this.renderHolidaySquare(11)}

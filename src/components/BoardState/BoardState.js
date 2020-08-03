@@ -1,4 +1,5 @@
 import Board from '../Board/Board';
+import Token from '../Token/Token';
 
 function NumberBoardSpaces() {
     // SET HORIZONTAL BOARD ROWS
@@ -30,8 +31,9 @@ export default class BoardState {
   board;
   squares;
   numPlayers;
-  tokens;
   currentPlayer;
+  tokens;
+  playerTokens = [];
 
   constructor(props) {
     console.info("Board: Initializing the board state");
@@ -42,6 +44,12 @@ export default class BoardState {
     this.squares = Array(BOARD_SIZE).fill(null);
     // POSITIONS IS ARRAY OF BOARD POSITIONS OF ALL PLAYERS
     this.positions = [0, 10, 46, 56];
+
+    // CREATE 4 NEW TOKENS FOR EACH GAME INSTANCE
+    for(var i = 0; i < 4; i++){
+      this.playerTokens.push(new Token())
+    }
+    
     this.numPlayers = 0;
     this.tokens = ["1", "2", "3", "4"]; 
     this.currentPlayer = 0;
@@ -149,4 +157,17 @@ export default class BoardState {
     console.info("Board: Returning current Player to caller");
     return this.currentPlayer + 1;
   }
+
+  getPlayerCakes(){
+    console.info("Board: Returning current Player token to caller");
+    // console.info(this.playerTokens)
+    return this.playerTokens[this.currentPlayer].getCakePieces();
+  }
+
+  updatePlayerCakes(color){
+    this.playerTokens[this.currentPlayer].addCakePiece(color)
+
+  }
+
 }
+

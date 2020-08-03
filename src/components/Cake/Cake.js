@@ -8,11 +8,13 @@ export default class Cake {
     this.pieces = [];
   };
   
-  addPiece(color) {
-    this.currentPieces.push(color);
+  addCakePiece(color) {
+    if(this.pieces.includes(color))
+      return
+    this.pieces.push(color);
   }
 
-  getPieces() {
+  getCakePieces() {
     console.log("CAKE: gets pieces");
     return this.pieces;
   }

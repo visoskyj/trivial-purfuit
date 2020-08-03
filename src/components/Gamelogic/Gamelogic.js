@@ -60,7 +60,7 @@ export default class Gamelogic {
         console.info("Gamelogic: Asking Board to move Player");
         this.board.movePlayer(i);
 
-        if(category == "rollagain"){
+        if(category === "rollagain"){
             console.info("Gamelogic: Returning board to Client");
             return;
         }
@@ -82,6 +82,18 @@ export default class Gamelogic {
         return this.board.numPlayers
     }
 
+    getPlayerCakes(){
+        let cakesArray = this.board.getPlayerCakes()
+        console.info(cakesArray)
+        let cakesString = ''
+        cakesArray.forEach(element => cakesString += element + ", "); 
+        return cakesString.substring(0, cakesString.length - 2);
+    }
+
+    updatePlayerCakes(color){
+        this.board.updatePlayerCakes(color)
+    }
+
 
     rollDice(){
         console.info("Gamelogic: Rolling the dice");
@@ -89,12 +101,7 @@ export default class Gamelogic {
     }
 
     // GET DICE ROLL NUMBER AND SHOW SPACES WHERE PLAYER CAN MOVE
-    showBoardMove(player) {
-
-        // IF NUMBER PLAYERS IS 0 DON'T PROCESS CLICK
-        if(!this.board.numPlayers)
-            return
-        
+    showBoardMove(player) {        
         console.info("Gamelogic: Beginning the move phase");
         
         // RETURN IF PLAYER TRIES TO ROLL DICE WITHOUT SELECTING MOVE

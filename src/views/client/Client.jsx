@@ -56,7 +56,7 @@ class Client extends React.Component {
         else return 'incorrect'
     }
 
-    grantTokenCakes(){
+    grantTokenCakes(i){
         
         let category = this.currentCategory
         let color = ''
@@ -73,7 +73,15 @@ class Client extends React.Component {
                 break;
             case "Places HQ":
                 color = "Blue"
-                break;   
+                break; 
+            case "Hub":
+                const cakes = this.game.getPlayerCakesArray()
+                console.info(cakes)
+                if(cakes.length === 4){
+                    alert("You've won the game!")
+                    this.initializeGame(); 
+                }
+                return;
             default:
                 return
         }
@@ -96,7 +104,11 @@ class Client extends React.Component {
             return;
         
         this.currentCategory = category;
-        let question = this.game.handleClick(i, category);
+
+        let question;
+        if(category == "Hub")
+            question = this.game.handleClick(i, "Event");
+        else question = this.game.handleClick(i, category);
 
         if(category === "rollagain"){
             alert("Please roll for another turn.");
@@ -108,7 +120,9 @@ class Client extends React.Component {
             console.info("Client: The correct answer is - " + question["correctAnswer"]);
             
             if(this.questionPrompt(question) == "correct"){
+
                 console.info('Client: Player provided answer is CORRECT!')
+                
                 this.grantTokenCakes()
                 alert("Correct answer! Roll again.");
             }

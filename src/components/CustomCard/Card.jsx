@@ -12,9 +12,11 @@ import useInput from '../../utils/useInput';
 const CustomCard = ({question}) => {
   const [isEditMode, setEditMode] = useState(false);
   const [localQuestion, setLocalQuestion] = useState(null);
+  const [localCorrectAnswer, setLocalCorrectAnswer] = useState(null);
 
   useEffect(() => {
     setLocalQuestion(question.question);
+    setLocalCorrectAnswer(question.correctAnswer);
   }, [])
 
   const handleQuestionChange = (e) => {
@@ -25,15 +27,26 @@ const CustomCard = ({question}) => {
     console.log(e.target.value);
   }
 
+  const handleCorrectAnswerChange = (e, i) => {
+    setLocalCorrectAnswer(e.target.value);
+  }
+
   const handleEdit = (e) => {
     isEditMode ? handlePutRequest() : setEditMode(true)
   };
 
+  const handleCancel = (e) => {
+    setLocalQuestion(question.question);
+    setLocalCorrectAnswer(question.correctAnswer);
+    setEditMode(false);
+  };
+
   const handlePutRequest = () => {
     // asserts values have changed
-    if (localQuestion !== question.question) {
+    if (localQuestion !== question.question || localCorrectAnswer !== question.correctAnswer) {
       const updatedQuestion = question;
       updatedQuestion.question = localQuestion;
+      updatedQuestion.correctAnswer = localCorrectAnswer;
       // executes put request
       QuestionsApi.updateQuestion(question._id, updatedQuestion).then(res => {
         console.log(res)
@@ -105,6 +118,29 @@ const CustomCard = ({question}) => {
             }
           })}
         </Box>
+        <Typography
+            component="p"
+            className={""}
+            color="textSecondary"
+            gutterBottom
+        >
+          Correct Answer
+        </Typography>
+        {isEditMode && question !== null ? (
+            <TextField
+                id="filled-multiline-static"
+                multiline
+                style={{ width: "100%" }}
+                value={localCorrectAnswer}
+                rows={1}
+                variant="filled"
+                onChange={handleCorrectAnswerChange}
+            />
+        ) : (
+            <Typography variant="body1" component="p">
+              {question.correctAnswer}
+            </Typography>
+        )}
       </CardContent>
       <CardActions>
         <Button
@@ -115,6 +151,14 @@ const CustomCard = ({question}) => {
         >
           {!isEditMode ? "Edit" : "Save"}
         </Button>
+        {isEditMode && <Button
+            variant={"contained"}
+            color={"primary"}
+            className={"local-button local-button--primary"}
+            onClick={() => handleCancel()}  >
+          Cancel
+        </Button>
+        }
       </CardActions>
     </Card>
   );

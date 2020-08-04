@@ -9,6 +9,16 @@ import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import QuestionsApi from "../../api/QuestionsApi";
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 200,
+    }
+}));
 
 const NewQuestionCard = ({handleClose, getAllQuestions}) => {
   const [question, setQuestion] = React.useState('');
@@ -16,6 +26,7 @@ const NewQuestionCard = ({handleClose, getAllQuestions}) => {
   const [questionCategory, setQuestionCategory] = React.useState('People');
   const [answers, setAnswers] = React.useState(['', '', '', '']);
   const [answerChanged, setAnswerChanged] = React.useState(true);
+  const classes = useStyles();
 
   const setNewQuestion = (e) => {
     setQuestion(e.target.value);
@@ -96,39 +107,37 @@ const NewQuestionCard = ({handleClose, getAllQuestions}) => {
             })
             }
           </Box>
-          <Box display="flex" >
-            <DialogContentText >
-              Correct Answer:
-            </DialogContentText>
-            <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={correctAnswer}
-                label="Correct Answer"
-                onChange={handleCorrectAnswerChange}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-            </Select>
-          </Box>
-          <Box display="flex" >
-            <DialogContentText>
-              Category:
-            </DialogContentText>
-            <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={questionCategory}
-                label="Correct Answer"
-                onChange={handleQuestionCategoryChange}
-            >
-              <MenuItem value={'People'}>People</MenuItem>
-              <MenuItem value={'Event'}>Event</MenuItem>
-              <MenuItem value={'Places'}>Places</MenuItem>
-              <MenuItem value={'Holiday'}>Holiday</MenuItem>
-            </Select>
+          <Box display="flex" style={{ marginTop: "10px" }} >
+              <FormControl variant="filled" className={classes.formControl}>
+                  <InputLabel id="correct-answer">Correct Answer</InputLabel>
+                  <Select
+                    labelId="correct-answer"
+                    id="demo-simple-select-helper"
+                    value={correctAnswer}
+                    label="Correct Answer"
+                    onChange={handleCorrectAnswerChange}
+                >
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl variant="filled" className={classes.formControl}>
+                  <InputLabel id="category">Category</InputLabel>
+                  <Select
+                    labelId="category"
+                    id="demo-simple-select-helper"
+                    value={questionCategory}
+                    label="Correct Answer"
+                    onChange={handleQuestionCategoryChange}
+                >
+                  <MenuItem value={'People'}>People</MenuItem>
+                  <MenuItem value={'Event'}>Event</MenuItem>
+                  <MenuItem value={'Places'}>Places</MenuItem>
+                  <MenuItem value={'Holiday'}>Holiday</MenuItem>
+                </Select>
+              </FormControl>
           </Box>
 
 

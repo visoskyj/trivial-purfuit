@@ -4,12 +4,16 @@ import QuestionsApi from "../../api/QuestionsApi";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { Box, Container, CardActions } from "@material-ui/core";
+import { Box, Container } from "@material-ui/core";
 import CustomCard from "../../components/CustomCard/Card";
+import Dialog from "@material-ui/core/Dialog";
+import NewQuestionCard from "../../components/CustomCard/NewQuestionCard";
+
 
 const ConfigureGame = () => {
   const [localQuestions, setLocalQuestions] = useState([]);
   const [isEditMode, setEditMode] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     QuestionsApi.getAllQuestions()
@@ -30,14 +34,17 @@ const ConfigureGame = () => {
 
   const toggleEdit = () => {
     setEditMode(!isEditMode)
-  }
-  
-  
-  const handleAddQuestion = () => {
-    localQuestions;
   };
 
-  return (
+  const handleAddQuestion = () => {
+      setOpen(true);
+  };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
     <Container maxWidth="lg">
       <Box
         display="flex"
@@ -76,6 +83,9 @@ const ConfigureGame = () => {
           );
         })}
       </Grid>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <NewQuestionCard handleClose={handleClose}/>
+        </Dialog>
     </Container>
   );
 };

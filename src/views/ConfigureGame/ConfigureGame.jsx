@@ -16,21 +16,25 @@ const ConfigureGame = () => {
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
-    QuestionsApi.getAllQuestions()
-      .then((result) => {
-        console.log(
-          "Gamelogic: Successfully fetched all questions: ",
-          result.data
-        );
-        setLocalQuestions(result.data);
-      })
-      .catch((error) => {
-        console.warn(
-          "Gamelogic: Failed to fetch all questions with error ",
-          error.toString()
-        );
-      });
+      getAllQuestions();
   }, []);
+
+  const getAllQuestions = () => {
+      QuestionsApi.getAllQuestions()
+          .then((result) => {
+              console.log(
+                  "Gamelogic: Successfully fetched all questions: ",
+                  result.data
+              );
+              setLocalQuestions(result.data);
+          })
+          .catch((error) => {
+              console.warn(
+                  "Gamelogic: Failed to fetch all questions with error ",
+                  error.toString()
+              );
+          });
+  };
 
   const toggleEdit = () => {
     setEditMode(!isEditMode)
@@ -84,7 +88,7 @@ const ConfigureGame = () => {
         })}
       </Grid>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <NewQuestionCard handleClose={handleClose}/>
+            <NewQuestionCard handleClose={handleClose} getAllQuestions={getAllQuestions}/>
         </Dialog>
     </Container>
   );

@@ -8,8 +8,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
+import QuestionsApi from "../../api/QuestionsApi";
 
-const NewQuestionCard = ({handleClose}) => {
+const NewQuestionCard = ({handleClose, getAllQuestions}) => {
   const [question, setQuestion] = React.useState('');
   const [correctAnswer, setCorrectAnswer] = React.useState('1');
   const [questionCategory, setQuestionCategory] = React.useState('People');
@@ -29,11 +30,27 @@ const NewQuestionCard = ({handleClose}) => {
   };
 
   const handleAddNewQuestion = () => {
-    //TODO: VALIDATE ALL FIELDS
-    let newQuestion = {question: question, answers: answers, correctAnswer: correctAnswer, category: questionCategory};
-    //TODO: SAVE QUESTION
-    console.log('Saving Question ', newQuestion);
-    handleClose();
+      if (question !== '' && answers[0] !== '' && answers[1] !== '' && answers[2] !== '' && answers[3] !== '' && correctAnswer && questionCategory) {
+          let newQuestion = {
+              question: question,
+              answers: answers,
+              correctAnswer: correctAnswer,
+              category: questionCategory
+          };
+          QuestionsApi.addQuestion(newQuestion)
+              .then((result) => {
+                  console.log("Successfully saved new question");
+                  handleClose();
+                  getAllQuestions();
+              })
+              .catch((error) => {
+                  alert("Failed to save question",
+                      error.toString()
+                  );
+              });
+      } else {
+          alert("Please make sure all fields are filled in");
+      }
   };
 
   const handleAnswerChange = (e, index) => {

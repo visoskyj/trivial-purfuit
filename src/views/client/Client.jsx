@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Board from  '../Gameboard/Gameboard'
 import Gamelogic from  '../../components/Gamelogic/Gamelogic'
 
@@ -217,14 +218,15 @@ class Client extends React.Component {
                 >
                   Roll Dice
                 </Button>
+                <Link to={'/config'}>
                 <Button
                   variant={"contained"}
                   color={"primary"}
                   className={"local-button local-button--primary"}
-                  onClick={() => this.getConfiguration()}
                 >
                   Configure Game
                 </Button>
+                </Link>
                 
               </Box>
             </div>

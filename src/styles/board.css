@@ -3,12 +3,16 @@
 }
 body {
   margin: 20px;
+  background-color: #f9f9f9;
 }
 
 ol, ul {
   padding-left: 30px;
 }
 
+a {
+  text-decoration: none;
+}
 
 .board-row:after {
   clear: both;
@@ -76,4 +80,23 @@ ol, ul {
 
 .local-button.local-button--secondary {
   background-color: #f77e51 !important;
+}
+
+.card-category {
+  
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.card-category--people {
+  color: firebrick;
+}
+.card-category--places {
+  color: steelblue;
+}
+.card-category--holiday {
+  color: olivedrab;
+}
+.card-category--event {
+  color: rgb(154, 154, 154);
 }

@@ -7,6 +7,10 @@ import Divider from "@material-ui/core/Divider";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import QuestionsApi from "../../api/QuestionsApi";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel/InputLabel";
+import Select from "@material-ui/core/Select/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const CustomCard = ({ question, resetQuestions }) => {
   const [isEditMode, setEditMode] = useState(false);
@@ -145,28 +149,35 @@ const CustomCard = ({ question, resetQuestions }) => {
             })}
         </Box>
         <Divider style={{ margin: "16px 0" }} />
-        <Typography
-          component="p"
-          className={""}
-          color="textSecondary"
-          gutterBottom
-        >
-          Correct Answer
-        </Typography>
         {isEditMode && question !== null ? (
-          <TextField
-            id="filled-multiline-static"
-            multiline
-            style={{ width: "100%" }}
-            value={localCorrectAnswer}
-            rows={1}
-            variant="filled"
-            onChange={handleCorrectAnswerChange}
-          />
+            <FormControl variant="filled" style={{ margin: 1, minWidth: 200}}>
+              <InputLabel id="correct-answer">Correct Answer</InputLabel>
+              <Select
+                  labelId="correct-answer"
+                  id="demo-simple-select-helper"
+                  value={localCorrectAnswer}
+                  label="Correct Answer"
+                  onChange={handleCorrectAnswerChange}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+              </Select>
+            </FormControl>
         ) : (
+            <React.Fragment>
+            <Typography
+                component="p"
+                color="textSecondary"
+                gutterBottom
+            >
+              Correct Answer
+            </Typography>
           <Typography variant="body1" component="p">
             {localCorrectAnswer}
           </Typography>
+            </React.Fragment>
         )}
       </CardContent>
       <div style={{ padding: "8px", height: "35px" }}>

@@ -11,6 +11,14 @@ class ApiUtils {
     static async callPostRequest(path, body) {
         return axios.post(server + path, body);
     }
+
+    static async callPutRequest(path, body) {
+        return axios.put(server + path, body);
+    }
+
+    static async callDeleteRequest(path) {
+        return axios.delete(server + path);
+    }
 }
 
 export default ApiUtils;

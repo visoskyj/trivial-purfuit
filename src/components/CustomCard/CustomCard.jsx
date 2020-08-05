@@ -7,54 +7,74 @@ import Divider from "@material-ui/core/Divider";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import QuestionsApi from "../../api/QuestionsApi";
-import useInput from '../../utils/useInput';
 
-const CustomCard = ({question}) => {
+const CustomCard = ({ question, resetQuestions }) => {
   const [isEditMode, setEditMode] = useState(false);
   const [localQuestion, setLocalQuestion] = useState(null);
   const [localCorrectAnswer, setLocalCorrectAnswer] = useState(null);
 
+  const [answers, setAnswers] = useState(
+    JSON.parse(JSON.stringify(question.answers))
+  );
+  const [answerChanged, setAnswerChanged] = React.useState(true);
+
   useEffect(() => {
     setLocalQuestion(question.question);
     setLocalCorrectAnswer(question.correctAnswer);
-  }, [])
+  }, []);
 
   const handleQuestionChange = (e) => {
-    setLocalQuestion(e.target.value)
-  }
-
-  const handleAnswerChange = (e, i) => {
-    console.log(e.target.value);
-  }
+    setLocalQuestion(e.target.value);
+  };
 
   const handleCorrectAnswerChange = (e, i) => {
     setLocalCorrectAnswer(e.target.value);
-  }
+  };
 
   const handleEdit = (e) => {
-    isEditMode ? handlePutRequest() : setEditMode(true)
+    isEditMode ? handlePutRequest() : setEditMode(true);
   };
 
   const handleCancel = (e) => {
     setLocalQuestion(question.question);
+    setAnswers(question.answers);
     setLocalCorrectAnswer(question.correctAnswer);
     setEditMode(false);
   };
 
+  const handleAnswerChange = (e, index) => {
+    answers[index] = e.target.value;
+    setAnswers(answers);
+    setAnswerChanged(!answerChanged);
+  };
+
   const handlePutRequest = () => {
+    console.log(JSON.stringify(answers), JSON.stringify(question.answers));
     // asserts values have changed
-    if (localQuestion !== question.question || localCorrectAnswer !== question.correctAnswer) {
+    if (
+      localQuestion !== question.question ||
+      JSON.stringify(answers) !== JSON.stringify(question.answers) ||
+      localCorrectAnswer !== question.correctAnswer
+    ) {
       const updatedQuestion = question;
       updatedQuestion.question = localQuestion;
+      updatedQuestion.answers = answers;
       updatedQuestion.correctAnswer = localCorrectAnswer;
       // executes put request
-      QuestionsApi.updateQuestion(question._id, updatedQuestion).then(res => {
+      QuestionsApi.updateQuestion(question._id, updatedQuestion).then((res) =>
         console.log(res)
-      });
+      );
     }
 
     // toggles edit mode to false
     setEditMode(false);
+  };
+
+  const handleDeleteQuestion = (question) => {
+    QuestionsApi.deleteQuestion(question._id).then((res) => {
+      alert(`You just removed a question`);
+      resetQuestions();
+    });
   };
 
   return (
@@ -97,71 +117,91 @@ const CustomCard = ({question}) => {
           Answers
         </Typography>
         <Box display="flex" justifyContent={"space-between"}>
-          {question.answers.map((answ, index) => {
-            if (isEditMode) {
+          {isEditMode &&
+            answers.map((ans, index) => {
               return (
                 <TextField
-                  id={`${question.id}-${answ}`}
+                  id={`${question.id}-${ans}`}
                   variant="filled"
-                  value={answ}
+                  value={ans}
                   style={{ margin: "0 4px" }}
-                  key={answ}
+                  key={index}
                   onChange={(e) => handleAnswerChange(e, index)}
                 />
               );
-            } else {
+            })}
+
+          {!isEditMode &&
+            answers.map((ans, index) => {
               return (
-                <Typography variant="body1" component="p" key={answ}>
-                  {answ}
+                <Typography
+                  variant="body1"
+                  component="p"
+                  key={`view-${ans}-${index}`}
+                >
+                  {ans}
                 </Typography>
               );
-            }
-          })}
+            })}
         </Box>
+        <Divider style={{ margin: "16px 0" }} />
         <Typography
-            component="p"
-            className={""}
-            color="textSecondary"
-            gutterBottom
+          component="p"
+          className={""}
+          color="textSecondary"
+          gutterBottom
         >
           Correct Answer
         </Typography>
         {isEditMode && question !== null ? (
-            <TextField
-                id="filled-multiline-static"
-                multiline
-                style={{ width: "100%" }}
-                value={localCorrectAnswer}
-                rows={1}
-                variant="filled"
-                onChange={handleCorrectAnswerChange}
-            />
+          <TextField
+            id="filled-multiline-static"
+            multiline
+            style={{ width: "100%" }}
+            value={localCorrectAnswer}
+            rows={1}
+            variant="filled"
+            onChange={handleCorrectAnswerChange}
+          />
         ) : (
-            <Typography variant="body1" component="p">
-              {question.correctAnswer}
-            </Typography>
+          <Typography variant="body1" component="p">
+            {localCorrectAnswer}
+          </Typography>
         )}
       </CardContent>
-      <CardActions>
-        <Button
-          variant={"contained"}
-          color={"primary"}
-          className={"local-button local-button--primary"}
-          onClick={() => handleEdit(!isEditMode)}
-        >
-          {!isEditMode ? "Edit" : "Save"}
-        </Button>
-        {isEditMode && <Button
+      <div style={{ padding: "8px", height: "35px" }}>
+        {isEditMode && (
+          <Button
+            variant="contained"
+            color="secondary"
+            className={"local-button "}
+            onClick={() => handleDeleteQuestion(question)}
+          >
+            Delete
+          </Button>
+        )}
+        <div style={{ float: "right" }}>
+          {isEditMode && (
+            <Button
+              color={"primary"}
+              className={"local-button "}
+              onClick={() => handleCancel()}
+            >
+              Cancel
+            </Button>
+          )}{" "}
+          <Button
             variant={"contained"}
             color={"primary"}
             className={"local-button local-button--primary"}
-            onClick={() => handleCancel()}  >
-          Cancel
-        </Button>
-        }
-      </CardActions>
+            onClick={() => handleEdit(!isEditMode)}
+          >
+            {!isEditMode ? "Edit" : "Save"}
+          </Button>
+        </div>
+      </div>
     </Card>
   );
-}
+};
 
 export default CustomCard;

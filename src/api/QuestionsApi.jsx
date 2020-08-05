@@ -12,7 +12,11 @@ class QuestionsApi {
     }
 
     static async updateQuestion(id, question) {
-        return ApiUtils.callPostRequest('/question/update/' + id, question);
+        return ApiUtils.callPutRequest("/question/update/" + id, question);
+    }
+
+    static async deleteQuestion(id) {
+        return ApiUtils.callDeleteRequest("/question/" + id);
     }
 
     static getConfiguration(){

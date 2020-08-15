@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const questionRoutes = require("./routes/questions");
 const categoryToColorRoutes = require("./routes/categorymapping");
+const gameRoutes = require("./routes/game");
 
 const PORT = 4000;
 
@@ -23,6 +24,7 @@ connection.once('open', function() {
 
 app.use('/question', questionRoutes);
 app.use('/categoryToColor', categoryToColorRoutes);
+app.use('/game', gameRoutes);
 
 app.listen(PORT, function() {
     console.log("Backend Server is running on Port: " + PORT);

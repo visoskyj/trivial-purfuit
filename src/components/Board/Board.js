@@ -4,7 +4,7 @@ export default class Board {
   boardMap;
   size = 56;
   constructor() {
-    this.positions = [0, 10, 46, 56];
+    //this.positions = [0, 10, 46, 56];
     this.boardMap = [];
     // this.numberBoardSpaces();
   }

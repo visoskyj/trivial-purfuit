@@ -24,7 +24,7 @@ function NumberBoardSpaces() {
 }
 
 const BOARD_SIZE = 56
-var boardMap = [];
+const boardMap = [];
 NumberBoardSpaces()
 
 export default class BoardState {
@@ -38,9 +38,9 @@ export default class BoardState {
   constructor(props) {
     console.info("Board: Initializing the board state");
     
-    this.board = new Board();
-    this.board.numberBoardSpaces()
-    console.log(this.board);
+    //this.board = new Board();
+    //this.board.numberBoardSpaces()
+
 
     this.squares = Array(BOARD_SIZE).fill(null);
     // POSITIONS IS ARRAY OF BOARD POSITIONS OF ALL PLAYERS

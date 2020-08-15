@@ -12,6 +12,8 @@ import HubSquare from '../../components/Squares/HubSquare'
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
+import GameApi from "../../api/GameApi"
+
 
 class Client extends React.Component {
 
@@ -19,6 +21,11 @@ class Client extends React.Component {
         super(props);
         console.info("Client: 'creating' connection to gamelogic subsystem.");
         this.game = new Gamelogic();
+        GameApi.testGame().then(result => {
+          console.log("TACO game test");
+        }).catch(error => {
+          console.warn("error in game test");
+        });
         this.diceValue = '';
         console.info("Client: Asking gamelogic for current player.");
         this.currentPlayerCakes = ''

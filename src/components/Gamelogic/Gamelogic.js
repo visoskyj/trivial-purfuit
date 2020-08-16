@@ -95,8 +95,6 @@ export default class Gamelogic {
         await this.getCurrentPlayer();
         let data = await GameApi.getPlayerCakes();
         let cakesArray = data.data.cake.pieces;
-        console.log("cakesArray")
-        console.info(cakesArray)
         let cakesString = ''
         cakesArray.forEach(element => cakesString += element + ", "); 
         return cakesString.substring(0, cakesString.length - 2);

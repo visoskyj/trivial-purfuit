@@ -11,7 +11,7 @@ import HolidaySquare from '../../components/Squares/HolidaySquare'
 import HubSquare from '../../components/Squares/HubSquare'
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-
+import Dialog from "@material-ui/core/Dialog";
 
 class Client extends React.Component {
 
@@ -21,15 +21,17 @@ class Client extends React.Component {
         this.game = new Gamelogic();
         this.diceValue = '';
         console.info("Client: Asking gamelogic for current player.");
-        this.currentPlayerCakes = ''
-        this.currentPlayer = ''
-        this.currentCategory = ''
+        this.currentPlayerCakes = '';
+        this.currentPlayer = '';
+        this.currentCategory = '';
+        this.openErrorModal = false;
+        this.alertMessage = '';
     }
 
     showBoardMove() {
         // IF NUMBER PLAYERS IS 0 DON'T PROCESS CLICK
         if(this.game.getNumberPlayers() === 0)
-            return
+            return;
         console.info("Client: Asking gamelogic to start a board move.");
         this.game.showBoardMove(this.currentPlayer);
         this.diceValue = this.game.getDiceRoll();        
@@ -58,7 +60,7 @@ class Client extends React.Component {
             "Give number of answer.");
 
         if(!this.valid_answer(user_answer) && user_answer != null){
-          alert("Please enter a value, 1 - 4")
+            this.setModalVisible(true,"Please enter a value, 1 - 4");
           this.questionPrompt(question);
         }
         let correct_answer = question["correctAnswer"];
@@ -89,7 +91,7 @@ class Client extends React.Component {
                 const cakes = this.game.getPlayerCakesArray()
                 console.info(cakes)
                 if(cakes.length === 4){
-                    alert("You've won the game!")
+                    this.setModalVisible(true,"You've won the game!");
                     this.initializeGame(); 
                 }
                 return;
@@ -102,7 +104,7 @@ class Client extends React.Component {
         let playerTokenAfter = this.game.getPlayerCakes()
 
         if(playerTokenBefore !== playerTokenAfter)
-            alert("You have won a cake piece!")
+            this.setModalVisible(true,"You have won a cake piece!");
 
         return
     }
@@ -122,7 +124,7 @@ class Client extends React.Component {
         else question = this.game.handleClick(i, category);
 
         if(category === "rollagain"){
-            alert("Please roll for another turn.");
+            this.setModalVisible(true,"Please roll for another turn.");
         }
         else {
             console.info("Client: The category is - " + question["category"]);
@@ -135,11 +137,11 @@ class Client extends React.Component {
                 console.info('Client: Player provided answer is CORRECT!')
                 
                 this.grantTokenCakes()
-                alert("Correct answer! Roll again.");
+                this.setModalVisible(true,"Correct answer! Roll again.");
             }
             else {
                 console.info('Client: Player provided answer is incorrect :(')
-                alert("Incorrect answer. It's the next player's turn");
+                this.setModalVisible(true,"Incorrect answer. It's the next player's turn");
                 this.game.updateCurrentPlayer()
             }
         }
@@ -167,20 +169,27 @@ class Client extends React.Component {
 
         let players = prompt("How many players would like to play?", "2 - 4")   
         if(/^[1-4]{1}$/.test(players) == false){
-            alert("Please chose between 2 - 4 players please!");
-            return;    
-        }
-        this.game.updateNumberPlayers(players)
-        this.game.updatePlayers();
-        this.currentPlayerCakes = this.game.getPlayerCakes()
+            this.setModalVisible(true,"Please chose between 2 - 4 players please!");
+        } else {
+            this.game.updateNumberPlayers(players)
+            this.game.updatePlayers();
+            this.currentPlayerCakes = this.game.getPlayerCakes()
 
-        this.jumpTo();
+            this.jumpTo();
+        }
     }
 
     jumpTo() {
         this.setState({
             stepNumber: 0
         });
+    }
+
+
+    setModalVisible (visible, message) {
+        this.openErrorModal = visible;
+        this.alertMessage = message;
+        this.jumpTo();
     }
 
     render() {
@@ -283,6 +292,17 @@ class Client extends React.Component {
                 </span>
               </Box>
             </div>
+              <Dialog
+                  open={this.openErrorModal}
+                  onClose={() => this.setModalVisible(false, '')}
+                  aria-labelledby="form-dialog-title"
+              >
+                  <Box display="flex" justifyContent={"space-between"}>
+                      <p style={{margin: '40px'}}>
+                          {this.alertMessage}
+                      </p>
+                  </Box>
+              </Dialog>
           </div>
         );
     }

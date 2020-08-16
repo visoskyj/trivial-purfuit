@@ -20,7 +20,7 @@ let BoardState = new Schema({
     },
     currentPlayer: {
         type: Number,
-        default: 1,
+        default: 0,
     },
     turn: {
       type: Number,

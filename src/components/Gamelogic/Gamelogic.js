@@ -1,13 +1,10 @@
-import BoardState from '../BoardState/BoardState'
 import QuestionsApi from "../../api/QuestionsApi";
 import CategoryToColorMappingApi from "../../api/CategoryToColorMappingApi";
-
+import GameApi from "../../api/GameApi";
 
 export default class Gamelogic {
 
     constructor(props) {
-        console.info("Gamelogic: Initializing a new Board state");
-        this.board = new BoardState();
         this.diceValue = 0;
         this.rolledDice = 0;
         this.currentCategory = "";
@@ -15,9 +12,10 @@ export default class Gamelogic {
         this.eventQuestions = [];
         this.placesQuestions = [];
         this.holidayQuestions = [];
-        this.currentPlayer = this.board.getCurrentPlayer();
+        this.currentPlayer = 0;
 
         console.info("Gamelogic: Initializing Questions resource");
+
         QuestionsApi.getAllQuestions().then(result => {
             console.log("Gamelogic: Successfully fetched all questions: ", result.data);
             this.questions = result.data;
@@ -55,10 +53,10 @@ export default class Gamelogic {
 
 
     // MOVE PLAYER TOKEN TO BOARD SPACE OF CHOICE
-    handleClick(i, category) {
+    async handleClick(i, category) {
         this.currentCategory = category;
         console.info("Gamelogic: Asking Board to move Player");
-        this.board.movePlayer(i);
+        await GameApi.movePlayer(i);
 
         if(category === "rollagain"){
             console.info("Gamelogic: Returning board to Client");
@@ -70,32 +68,44 @@ export default class Gamelogic {
         return question;
     }
 
-    updateCurrentPlayer(){
-        this.board.updateCurrentPlayer();
+    async updateCurrentPlayer(){
+        let data = await GameApi.updateTurn();
+        this.currentPlayer = data.data.currentPlayer;
+        return data.data;
     }
 
-    updateNumberPlayers(numPlayers){
-        this.board.numPlayers = numPlayers
+    async updateNumberPlayers(numPlayers){
+        await GameApi.newGame(numPlayers);
     }
 
-    getNumberPlayers(){
-        return this.board.numPlayers
+    async getNumberPlayers(){
+        let allGames = await GameApi.allGames();
+        return allGames.data.numPlayers;
     }
 
-    getPlayerCakes(){
-        let cakesArray = this.board.getPlayerCakes()
+
+    // /game/cakes
+    async getPlayerCakesArray(){
+        let data = await GameApi.getPlayerCakes();
+        return data.data.cake;
+    }
+
+
+    async getPlayerCakes(){
+        await this.getCurrentPlayer();
+        let data = await GameApi.getPlayerCakes();
+        let cakesArray = data.data.cake.pieces;
+        console.log("cakesArray")
         console.info(cakesArray)
         let cakesString = ''
         cakesArray.forEach(element => cakesString += element + ", "); 
         return cakesString.substring(0, cakesString.length - 2);
     }
 
-    getPlayerCakesArray(){
-        return this.board.getPlayerCakes()
-    }
 
-    updatePlayerCakes(color){
-        this.board.updatePlayerCakes(color)
+    // game/updatecakes
+    async updatePlayerCakes(color){
+        await GameApi.updatePlayerCakes(color)
     }
 
 
@@ -105,9 +115,9 @@ export default class Gamelogic {
     }
 
     // GET DICE ROLL NUMBER AND SHOW SPACES WHERE PLAYER CAN MOVE
-    showBoardMove(player) {        
-        console.info("Gamelogic: Beginning the move phase");
-        
+    async showBoardMove(player) {        
+        console.info("Gamelogic: Beginning the move phase, player " + this.currentPlayer);
+        await this.getCurrentPlayer();
         // RETURN IF PLAYER TRIES TO ROLL DICE WITHOUT SELECTING MOVE
         if(player !== this.currentPlayer)
             return;
@@ -116,8 +126,9 @@ export default class Gamelogic {
         // GENERATE RANDOM DICE ROLL NUMBER
         this.rollDice();
         console.info("Gamelogic: Asking the Board to show valid moves");
-        this.board.getValidMove(this.diceValue)
-        this.rolledDice = this.board.currentPlayer;
+        let board = await GameApi.playerMoves(this.diceValue);
+
+        return board.data.board;
     }
 
     getConfiguration(){
@@ -127,18 +138,17 @@ export default class Gamelogic {
         return "Client - [Playercount], Questions - [add, update]";
     }
 
-    updatePlayers(){
+    async updatePlayers(){
         console.info("Gamelogic: Asking the Board to update players");
-        if(this.board.numPlayers)
-            this.board.updatePlayers();
+        await GameApi.updatePlayers();
     }
 
-    getSquares(){
+    async getSquares(){
         console.info("Gamelogic: Asking the Board for board state");
-        let state = this.board.getBoard();
-
-        console.info("Gamelogic: Returning board state to caller");
-        return state;
+        let allGames = await GameApi.allGames();
+        
+        console.info("Gamelogic: getSquares - Returning board state to caller");
+        return allGames.data[allGames.data.length -1];
     }
 
     getDiceRoll() {
@@ -146,10 +156,11 @@ export default class Gamelogic {
         return this.diceValue;
     }
 
-    getCurrentPlayer() {
-        console.info("Gamelogic: Asking the Board for current player");
-        this.currentPlayer = this.board.getCurrentPlayer();
+    async getCurrentPlayer() {
+        let allGames = await GameApi.allGames();
+
         console.info("Gamelogic: Returning current player to caller");
-        return this.currentPlayer;
+        this.currentPlayer = allGames.data[allGames.data.length -1].currentPlayer;
+        return allGames.data[allGames.data.length -1].currentPlayer;
     }
 }

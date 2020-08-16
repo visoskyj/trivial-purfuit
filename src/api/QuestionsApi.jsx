@@ -4,19 +4,19 @@ class QuestionsApi {
 
     static async getAllQuestions () {
         console.info("Questions: returning questions to caller")
-        return ApiUtils.callGetRequest('/question');
+        return await ApiUtils.callGetRequest('/question');
     }
 
     static async addQuestion(question) {
-        return ApiUtils.callPostRequest('/question/add', question);
+        return await ApiUtils.callPostRequest('/question/add', question);
     }
 
     static async updateQuestion(id, question) {
-        return ApiUtils.callPutRequest("/question/update/" + id, question);
+        return await ApiUtils.callPutRequest("/question/update/" + id, question);
     }
 
     static async deleteQuestion(id) {
-        return ApiUtils.callDeleteRequest("/question/" + id);
+        return await ApiUtils.callDeleteRequest("/question/" + id);
     }
 
     static getConfiguration(){

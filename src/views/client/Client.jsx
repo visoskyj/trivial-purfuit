@@ -12,33 +12,30 @@ import HubSquare from '../../components/Squares/HubSquare'
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
-import GameApi from "../../api/GameApi"
 
 
 class Client extends React.Component {
 
     constructor(props) {
+        console.info("Client constructor");
         super(props);
-        console.info("Client: 'creating' connection to gamelogic subsystem.");
         this.game = new Gamelogic();
-        GameApi.testGame().then(result => {
-          console.log("TACO game test");
-        }).catch(error => {
-          console.warn("error in game test");
-        });
         this.diceValue = '';
-        console.info("Client: Asking gamelogic for current player.");
         this.currentPlayerCakes = ''
-        this.currentPlayer = ''
+        this.currentPlayer = 0;
         this.currentCategory = ''
+        this.board = []
+        this.turn = -1
     }
 
-    showBoardMove() {
+    async showBoardMove() {
         // IF NUMBER PLAYERS IS 0 DON'T PROCESS CLICK
         if(this.game.getNumberPlayers() === 0)
             return
-        console.info("Client: Asking gamelogic to start a board move.");
-        this.game.showBoardMove(this.currentPlayer);
+        console.info("Client: Asking gamelogic to start a board move for player " + this.currentPlayer);
+        this.board = await this.game.showBoardMove(this.currentPlayer);
+        console.log("client showBoardMove")
+        console.log(this.board)
         this.diceValue = this.game.getDiceRoll();        
         this.jumpTo();
     }
@@ -71,11 +68,12 @@ class Client extends React.Component {
         let correct_answer = question["correctAnswer"];
         if(user_answer == correct_answer)
             return 'correct'
-        else return 'incorrect'
+        else {
+          return 'incorrect'
+        }
     }
 
-    grantTokenCakes(i){
-        
+    async grantTokenCakes(i){        
         let category = this.currentCategory
         let color = ''
 
@@ -93,7 +91,7 @@ class Client extends React.Component {
                 color = "Blue"
                 break; 
             case "Hub":
-                const cakes = this.game.getPlayerCakesArray()
+                const cakes = await this.game.getPlayerCakesArray()
                 console.info(cakes)
                 if(cakes.length === 4){
                     alert("You've won the game!")
@@ -105,7 +103,7 @@ class Client extends React.Component {
         }
 
         let playerTokenBefore = this.game.getPlayerCakes()
-        this.game.updatePlayerCakes(color)
+        await this.game.updatePlayerCakes(color)
         let playerTokenAfter = this.game.getPlayerCakes()
 
         if(playerTokenBefore !== playerTokenAfter)
@@ -114,19 +112,20 @@ class Client extends React.Component {
         return
     }
 
-    handleClick(i, category){
+    async handleClick(i, category){
         console.info("Client: Asking gamelogic to move player.");
         
         // IGNORE CLICKS IF NOT ON SQUARE FOR POTENTIAL MOVE
-        if (this.game.board.squares[i] !== "O")
+        if (this.board[i] !== "O"){
             return;
+        }
         
         this.currentCategory = category;
 
         let question;
-        if(category == "Hub")
-            question = this.game.handleClick(i, "Event");
-        else question = this.game.handleClick(i, category);
+        if(category === "Hub")
+            question = await this.game.handleClick(i, "Event");
+        else question = await this.game.handleClick(i, category);
 
         if(category === "rollagain"){
             alert("Please roll for another turn.");
@@ -137,7 +136,7 @@ class Client extends React.Component {
             console.info("Client: The answers are - " + question["answers"]);
             console.info("Client: The correct answer is - " + question["correctAnswer"]);
             
-            if(this.questionPrompt(question) == "correct"){
+            if(this.questionPrompt(question) === "correct"){
 
                 console.info('Client: Player provided answer is CORRECT!')
                 
@@ -147,41 +146,72 @@ class Client extends React.Component {
             else {
                 console.info('Client: Player provided answer is incorrect :(')
                 alert("Incorrect answer. It's the next player's turn");
-                this.game.updateCurrentPlayer()
+                let boardData = await this.game.updateCurrentPlayer();
+                
+                this.currentPlayer = boardData.currentPlayer;
+                console.info('current player ' + this.currentPlayer)
             }
         }
-        this.currentPlayer = this.game.getCurrentPlayer();
-        this.diceValue = ''
-        this.currentPlayerCakes = this.game.getPlayerCakes()
+        await this.game.updatePlayers();
+        this.currentPlayer = await this.game.getCurrentPlayer();
+        this.diceValue = '';
+        this.currentPlayerCakes = await this.game.getPlayerCakes();
         this.jumpTo();
     }
 
-    getSquares(){
+    async getSquares(){
         console.info("Client: Asking gamelogic to provide updated board.");
-        return this.game.getSquares();
+        let boardData = await this.game.getSquares();
+        console.info("boardData turn " + boardData.turn);
+        console.info("this.turn " + this.turn);
+        if(this.turn != boardData.turn && this.turn != -1)
+        {
+          console.info("updating board ");
+          this.board = boardData.board;
+          this.turn = boardData.turn;          
+        }
+        this.currentPlayerCakes = await this.game.getPlayerCakes();
+        this.currentPlayer = boardData.currentPlayer;
+        return this.board
     }
 
     resetGame(){
+        console.log("resetting game");
         this.game = new Gamelogic();
         this.diceValue = '';
-        console.info("Client: Asking gamelogic for current player.");
-        this.currentPlayer = this.game.getCurrentPlayer();
+        this.currentPlayer = 0;
         this.currentCategory = '';
     }
 
-    initializeGame(){
+    async initializeGame(){
+      console.log("initializeGame");
         this.resetGame();
-
         let players = prompt("How many players would like to play?", "2 - 4")   
-        if(/^[1-4]{1}$/.test(players) == false){
+        if(/^[1-4]{1}$/.test(players) === false){
             alert("Please chose between 2 - 4 players please!");
             return;    
         }
-        this.game.updateNumberPlayers(players)
-        this.game.updatePlayers();
-        this.currentPlayerCakes = this.game.getPlayerCakes()
-
+        await this.game.updateNumberPlayers(players);
+        await this.game.updatePlayers();
+        let boardData = await this.game.getSquares();
+        this.board = boardData.board;
+        this.turn = boardData.turn;
+        this.currentPlayerCakes = [];
         this.jumpTo();
+    }
+
+    async joinGame(){
+      let boardData = await this.game.getSquares();
+      this.board = boardData.board;
+      this.turn = boardData.turn;
+      this.currentPlayer = boardData.currentPlayer;
+    }
+
+    async update(){
+      //await this.game.updatePlayers();
+      await this.getSquares();
+      console.log(this.board) 
+      this.jumpTo(); 
     }
 
     jumpTo() {
@@ -190,18 +220,19 @@ class Client extends React.Component {
         });
     }
 
+    componentDidMount() {
+      setInterval(this.update.bind(this), 2000);
+    }
+
+
     render() {
-
-        this.game.updatePlayers();
-        console.log(this.currentPlayerCakes)
-
         return (
           <div className="game">
             <h2>Trivial Perfuit</h2>
 
             <div className="game-board">
               <Board
-                squares={this.getSquares()}
+                squares={this.board}
                 onClick={(i, category) => this.handleClick(i, category)}
               />
             </div>
@@ -216,7 +247,14 @@ class Client extends React.Component {
                 >
                   Setup Game
                 </Button>  
-
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  className={"local-button local-button--primary"}
+                  onClick={() => this.joinGame()}
+                >
+                  Join Game
+                </Button>
                 <Button
                   variant={"contained"}
                   color={"primary"}
@@ -245,7 +283,7 @@ class Client extends React.Component {
                 justifyContent={"space-between"}
               >
                 <div>Dice Value: {this.diceValue}</div>
-                <div>Current Player: {this.currentPlayer}</div>
+                <div>Current Player: {this.currentPlayer + 1}</div>
                 <div>
                   Token cakes: {this.currentPlayerCakes}
                 </div>

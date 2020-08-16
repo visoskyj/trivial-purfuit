@@ -36,9 +36,9 @@ const ConfigureGame = () => {
           });
   };
 
-  const toggleEdit = () => {
-    setEditMode(!isEditMode)
-  };
+  // const toggleEdit = () => {
+  //   setEditMode(!isEditMode)
+  // };
 
   const handleAddQuestion = () => {
       setOpen(true);

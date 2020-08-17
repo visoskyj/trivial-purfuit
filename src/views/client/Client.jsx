@@ -12,7 +12,6 @@ import HubSquare from '../../components/Squares/HubSquare'
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Dialog from "@material-ui/core/Dialog";
-import Dice0 from './dice-0.png'
 import Dice1 from './dice-1.png'
 import Dice2 from './dice-2.png'
 import Dice3 from './dice-3.png'

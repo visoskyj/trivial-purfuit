@@ -209,34 +209,42 @@ class Client extends React.Component {
             </div>
             <div>
               <h3>Controls</h3>
+              {/* <Box display="flex" justifyContent={"space-between"} style={{marginBottom: "12px"}}> */}
+              <Button
+                variant={"contained"}
+                style={{ marginBottom: "12px", width: "100%" }}
+                color={"primary"}
+                className={
+                  "local-button local-button--primary local-button--large"
+                }
+                onClick={() => this.showBoardMove()}
+              >
+                Roll Dice 🎲
+              </Button>
+              {/* </Box> */}
               <Box display="flex" justifyContent={"space-between"}>
                 <Button
                   variant={"contained"}
                   color={"primary"}
-                  className={"local-button local-button--primary"}
+                  style={{ flexGrow: "1" }}
+                  className={"local-button "}
                   onClick={() => this.initializeGame()}
                 >
                   Setup Game
-                </Button>  
-
-                <Button
-                  variant={"contained"}
-                  color={"primary"}
-                  className={"local-button local-button--primary"}
-                  onClick={() => this.showBoardMove()}
-                >
-                  Roll Dice
                 </Button>
-                <Link to={'/config'}>
-                <Button
-                  variant={"contained"}
-                  color={"primary"}
-                  className={"local-button local-button--primary"}
+                <Link
+                  to={"/config"}
+                  style={{ flexGrow: "1", marginLeft: "8px" }}
                 >
-                  Configure Game
-                </Button>
+                  <Button
+                    variant={"contained"}
+                    color={"primary"}
+                    style={{ width: "100%" }}
+                    className={"local-button "}
+                  >
+                    Configure Game
+                  </Button>
                 </Link>
-                
               </Box>
             </div>
             <div className="game-info">
@@ -248,9 +256,7 @@ class Client extends React.Component {
               >
                 <div>Dice Value: {this.diceValue}</div>
                 <div>Current Player: {this.currentPlayer}</div>
-                <div>
-                  Token cakes: {this.currentPlayerCakes}
-                </div>
+                <div>Token cakes: {this.currentPlayerCakes}</div>
               </Box>
             </div>
 
@@ -267,42 +273,40 @@ class Client extends React.Component {
                 </span>
 
                 <span className="board-row">
-                    <EventSquare />
-                    <small>Events</small>
+                  <EventSquare />
+                  <small>Events</small>
                 </span>
 
                 <span className="board-row">
-                    <PeopleSquare />
-                    <small>People</small>
+                  <PeopleSquare />
+                  <small>People</small>
                 </span>
 
                 <span className="board-row">
-                    <HolidaySquare />
-                    <small>Holiday</small>
+                  <HolidaySquare />
+                  <small>Holiday</small>
                 </span>
 
                 <span className="board-row">
-                    <RollagainSquare />
-                    <small>Roll</small>
+                  <RollagainSquare />
+                  <small>Roll</small>
                 </span>
 
                 <span className="board-row">
-                    <HubSquare />
-                    <small>Hub</small>
+                  <HubSquare />
+                  <small>Hub</small>
                 </span>
               </Box>
             </div>
-              <Dialog
-                  open={this.openErrorModal}
-                  onClose={() => this.setModalVisible(false, '')}
-                  aria-labelledby="form-dialog-title"
-              >
-                  <Box display="flex" justifyContent={"space-between"}>
-                      <p style={{margin: '40px'}}>
-                          {this.alertMessage}
-                      </p>
-                  </Box>
-              </Dialog>
+            <Dialog
+              open={this.openErrorModal}
+              onClose={() => this.setModalVisible(false, "")}
+              aria-labelledby="form-dialog-title"
+            >
+              <Box display="flex" justifyContent={"space-between"}>
+                <p style={{ margin: "40px" }}>{this.alertMessage}</p>
+              </Box>
+            </Dialog>
           </div>
         );
     }

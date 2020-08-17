@@ -12,6 +12,13 @@ import HubSquare from '../../components/Squares/HubSquare'
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Dialog from "@material-ui/core/Dialog";
+import Dice0 from './dice-0.png'
+import Dice1 from './dice-1.png'
+import Dice2 from './dice-2.png'
+import Dice3 from './dice-3.png'
+import Dice4 from './dice-4.png'
+import Dice5 from './dice-5.png'
+import Dice6 from './dice-6.png'
 
 class Client extends React.Component {
 
@@ -20,13 +27,43 @@ class Client extends React.Component {
         console.info("Client: 'creating' connection to gamelogic subsystem.");
         this.game = new Gamelogic();
         this.diceValue = '';
+        this.diceImage = '';
+
         console.info("Client: Asking gamelogic for current player.");
         this.currentPlayerCakes = '';
         this.currentPlayer = '';
         this.currentCategory = '';
         this.openErrorModal = false;
         this.alertMessage = '';
+        this.showInfo = false
     }
+
+
+    setDiceImage(){
+        switch(this.diceValue) {
+            case 1:
+                this.diceImage = Dice1
+                break;
+            case 2:
+                this.diceImage = Dice2
+                break;
+            case 3:
+                this.diceImage = Dice3
+                break;
+            case 4:
+                this.diceImage = Dice4
+                break;
+            case 5:
+                this.diceImage = Dice5
+                break;
+            case 6:
+                this.diceImage = Dice6
+                break;              
+            default:
+                this.diceImage = ''
+        }
+    }
+
 
     showBoardMove() {
         // IF NUMBER PLAYERS IS 0 DON'T PROCESS CLICK
@@ -34,7 +71,8 @@ class Client extends React.Component {
             return;
         console.info("Client: Asking gamelogic to start a board move.");
         this.game.showBoardMove(this.currentPlayer);
-        this.diceValue = this.game.getDiceRoll();        
+        this.diceValue = this.game.getDiceRoll();   
+        this.setDiceImage();     
         this.jumpTo();
     }
 
@@ -147,13 +185,16 @@ class Client extends React.Component {
         }
         this.currentPlayer = this.game.getCurrentPlayer();
         this.diceValue = ''
-        this.currentPlayerCakes = this.game.getPlayerCakes()
+        this.diceImage = ''      
+        this.currentPlayerCakes = this.game.getPlayerCakes() 
         this.jumpTo();
     }
+
 
     getSquares(){
         console.info("Client: Asking gamelogic to provide updated board.");
         return this.game.getSquares();
+        this.setDiceImage()
     }
 
     resetGame(){
@@ -196,6 +237,8 @@ class Client extends React.Component {
 
         this.game.updatePlayers();
         console.log(this.currentPlayerCakes)
+
+
 
         return (
           <div className="game">
@@ -254,9 +297,10 @@ class Client extends React.Component {
                 flexDirection={"column"}
                 justifyContent={"space-between"}
               >
-                <div>Dice Value: {this.diceValue}</div>
                 <div>Current Player: {this.currentPlayer}</div>
                 <div>Token cakes: {this.currentPlayerCakes}</div>
+                <div>Dice Value: {this.diceValue}</div><div><br /></div>
+                <div><img src={this.diceImage} alt="" /></div>
               </Box>
             </div>
 

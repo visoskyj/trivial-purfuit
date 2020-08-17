@@ -303,44 +303,6 @@ class Client extends React.Component {
               </Box>
             </div>
 
-            <div>
-              <h3>Board Map</h3>
-              <Box
-                display="flex"
-                justifyContent={"space-between"}
-                margin={"16px 0"}
-              >
-                <span className="board-row">
-                  <PlaceSquare id={"PlaceSquare"} />
-                  <small>Places</small>
-                </span>
-
-                <span className="board-row">
-                  <EventSquare />
-                  <small>Events</small>
-                </span>
-
-                <span className="board-row">
-                  <PeopleSquare />
-                  <small>People</small>
-                </span>
-
-                <span className="board-row">
-                  <HolidaySquare />
-                  <small>Holiday</small>
-                </span>
-
-                <span className="board-row">
-                  <RollagainSquare />
-                  <small>Roll</small>
-                </span>
-
-                <span className="board-row">
-                  <HubSquare />
-                  <small>Hub</small>
-                </span>
-              </Box>
-            </div>
             <Dialog
               open={this.openErrorModal}
               onClose={() => this.setModalVisible(false, "")}

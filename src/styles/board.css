@@ -21,10 +21,12 @@ a {
 }
 
 .blank_square, .rollagainSquare, .eventSquare, 
-.placeSquare, .holidaySquare, .peopleSquare, .hubSquare {
+.placeSquare, .holidaySquare, .peopleSquare, .hubSquare, 
+.peopleSquareHQ, .placeSquareHQ  {
   border: 1px solid white;
+  position: relative;
   float: left;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   line-height: 37px;
   height: 37px;
@@ -33,12 +35,12 @@ a {
   margin-top: -1px;
   padding: 0;
   text-align: center;
+  z-index: 0;
 }
 .rollagainSquare {
   background: #e4cf11;
 }
 .hubSquare {
-  border-radius: 50%;
   background: coral;
 }
 .eventSquare{
@@ -46,19 +48,80 @@ a {
 }
 .placeSquare {
   background: #0076d8;
-  color: white;
+  color: #F5F5F5;
 }
+
+.placeSquareHQ {
+  background: #0076d8;
+}
+
 .holidaySquare{
   background: #29ad00;
 }
+
 .peopleSquare {
   background: #cc2800;
-  color: white;
+  color: #F5F5F5;
 }
+
+.peopleSquareHQ {
+  background: #cc2800;
+}
+
 .blank_square {
   background: #fff;
   border: none;
 }
+
+.containerbackground { 
+  line-height: 12px;
+  margin: 3px;
+  font-size: 10px;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  bottom: 0; 
+  z-index: -2; 
+  transform: rotate(315deg); 
+  -webkit-transform: rotate(315deg); 
+  color:#686868; 
+} 
+
+.containerbackground-hub { 
+  line-height: 12px;
+  margin: 11px 5px 5px 5px;
+  font-size: 14px;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  bottom: 0; 
+  z-index: -2; 
+  color: #484848; 
+} 
+
+.containerbackground-darktext { 
+  line-height: 12px;
+  margin: 5px 0 0 0;
+  font-size: 9px;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  bottom: 0; 
+  z-index: -2; 
+  color:#686868; 
+} 
+
+.containerbackground-lighttext { 
+  line-height: 12px;
+  margin: 5px 0 0 0;
+  font-size: 9px;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  bottom: 0; 
+  z-index: -2; 
+  color: #DCDCDC; 
+} 
 
 /* Game */
 .game {

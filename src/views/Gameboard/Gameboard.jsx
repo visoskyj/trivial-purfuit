@@ -2,9 +2,13 @@ import React from 'react'
 import BlankSquare from '../../components/Squares/BlankSquare'
 import RollagainSquare from '../../components/Squares/RollagainSquare'
 import PeopleSquare from '../../components/Squares/PeopleSquare'
+import PeopleSquareHQ from '../../components/Squares/PeopleSquareHQ'
 import PlaceSquare from '../../components/Squares/PlaceSquare'
+import PlaceSquareHQ from '../../components/Squares/PlaceSquareHQ'
 import EventSquare from '../../components/Squares/EventSquare'
+import EventSquareHQ from '../../components/Squares/EventSquareHQ'
 import HolidaySquare from '../../components/Squares/HolidaySquare'
+import HolidaySquareHQ from '../../components/Squares/HolidaySquareHQ'
 import HubSquare from '../../components/Squares/HubSquare'
 
 class Board extends React.Component {
@@ -29,8 +33,14 @@ class Board extends React.Component {
 
     renderPeopleSquare(i) {
         var category = "People"
-        if (i === 33)
+        if (i === 33){
             category = "People HQ"
+            return (<PeopleSquareHQ
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+            );
+        }
         return (
             <PeopleSquare
                 value={this.props.squares[i]}
@@ -41,9 +51,14 @@ class Board extends React.Component {
 
     renderEventSquare(i) {
         var category = "Events"
-        if (i === 23)
+        if (i === 23){
             category = "Events HQ"
-        return (
+            return (<EventSquareHQ
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+            );
+        } else return (
             <EventSquare
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i, category)}
@@ -53,8 +68,14 @@ class Board extends React.Component {
 
     renderHolidaySquare(i) {
         var category = "Holiday"
-        if (i === 51)
+        if (i === 51){
             category = "Holiday HQ"
+            return (<HolidaySquareHQ
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+            );
+        }
         return (
             <HolidaySquare
                 value={this.props.squares[i]}
@@ -65,8 +86,14 @@ class Board extends React.Component {
 
     renderPlaceSquare(i) {
         var category = "Places"
-        if (i === 5)
+        if (i === 5){
             category = "Places HQ"
+            return (<PlaceSquareHQ
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i, category)}
+            />
+            );
+        }
         return (
             <PlaceSquare
                 value={this.props.squares[i]}

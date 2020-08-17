@@ -72,6 +72,34 @@ a {
   background: #fff;
   border: none;
 }
+.diceImg{
+  margin-left: 280px;
+  position: absolute;
+}
+
+.placesCake{
+  color: #0076d8;
+}
+.peopleCake{
+  color: #cc2800;
+}
+.holidayCake{
+  color: #29ad00;
+}
+.eventsCake{
+  color: #C0C0C0;
+}
+
+.placesCake, .peopleCake, .holidayCake, .eventsCake{
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.colorDots{
+  position: absolute;
+  margin-top: 23px;
+  margin-left: 106px;
+}
 
 .containerbackground { 
   line-height: 12px;

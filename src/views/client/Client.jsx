@@ -129,9 +129,9 @@ class Client extends React.Component {
                 console.info(cakes)
                 if(cakes.length === 4){
                     this.setModalVisible(true,"You've won the game!");
-                    this.initializeGame(); 
+                    // this.initializeGame(); 
                 }
-                return;
+                return 'win';
             default:
                 return
         }
@@ -173,8 +173,16 @@ class Client extends React.Component {
 
                 console.info('Client: Player provided answer is CORRECT!')
                 
-                this.grantTokenCakes()
-                this.setModalVisible(true,"Correct answer! Roll again.");
+                if (this.grantTokenCakes() == 'win'){
+                    var delayInMilliseconds = 5000; //1 second
+
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, delayInMilliseconds);
+                    
+                }
+                else this.setModalVisible(true,"Correct answer! Roll again.");
+
             }
             else {
                 console.info('Client: Player provided answer is incorrect :(')
@@ -186,7 +194,29 @@ class Client extends React.Component {
         this.diceValue = ''
         this.diceImage = ''      
         this.currentPlayerCakes = this.game.getPlayerCakes() 
+        this.currentCakeArray = this.game.getPlayerCakesArray() 
+        this.showCakeTokens()
         this.jumpTo();
+    }
+
+
+    showCakeTokens(){
+        if(this.currentCakeArray.includes('Blue'))
+            this.placesCake = '•'
+        else this.placesCake = null
+
+        if(this.currentCakeArray.includes('Red'))
+            this.peopleCake = '•'
+        else this.peopleCake = null
+
+        if(this.currentCakeArray.includes('Green'))
+            this.holidayCake = '•'
+        else this.holidayCake = null
+
+        if(this.currentCakeArray.includes('White'))
+            this.eventsCake = '•'
+        else this.eventsCake = null
+
     }
 
 
@@ -199,6 +229,11 @@ class Client extends React.Component {
     resetGame(){
         this.game = new Gamelogic();
         this.diceValue = '';
+        this.diceImage = '';
+        this.eventsCake = null;
+        this.placesCake = null;
+        this.holidayCake = null;
+        this.peopleCake = null;
         console.info("Client: Asking gamelogic for current player.");
         this.currentPlayer = this.game.getCurrentPlayer();
         this.currentCategory = '';
@@ -263,8 +298,10 @@ class Client extends React.Component {
               >
                 Roll Dice 🎲
               </Button>
+              
               {/* </Box> */}
               <Box display="flex" justifyContent={"space-between"}>
+              
                 <Button
                   variant={"contained"}
                   color={"primary"}
@@ -274,6 +311,7 @@ class Client extends React.Component {
                 >
                   Setup Game
                 </Button>
+              
                 <Link
                   to={"/config"}
                   style={{ flexGrow: "1", marginLeft: "8px" }}
@@ -286,7 +324,20 @@ class Client extends React.Component {
                   >
                     Configure Game
                   </Button>
+
                 </Link>
+
+      
+                  <Button
+                    variant={"contained"}
+                    color={"primary"}
+                    style={{ marginLeft: "8px"  }}
+                    className={"local-button "}
+                    onClick={() => alert('No game sessions found.')}
+                  >
+                    Join Game
+                  </Button>
+
               </Box>
             </div>
             <div className="game-info">
@@ -297,9 +348,16 @@ class Client extends React.Component {
                 justifyContent={"space-between"}
               >
                 <div>Current Player: {this.currentPlayer}</div>
-                <div>Token cakes: {this.currentPlayerCakes}</div>
-                <div>Dice Value: {this.diceValue}</div><div><br /></div>
-                <div><img src={this.diceImage} alt="" /></div>
+                <div>Dice Value: {this.diceValue}</div>
+                <div>Token cakes:</div>
+                <div className="colorDots">
+                  <span className="placesCake">{this.placesCake}</span>
+                  <span className="peopleCake">{this.peopleCake}</span>
+                  <span className="holidayCake">{this.holidayCake}</span>
+                  <span className="eventsCake">{this.eventsCake}</span>
+                </div>
+                
+                <div className='diceImg'><img src={this.diceImage} alt="" /></div>
               </Box>
             </div>
 
